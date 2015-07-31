@@ -417,4 +417,9 @@
         <item>com.google.android.gms</item>
         <item>com.android.location.fused</item>
     </string-array>
+    <!-- Enable the option to check proximity sensor when deciding whether to
+         turn the screen on
+         NOTE ! - Enable for devices that have a fast response proximity sensor
+    -->
+     <bool name="config_proximityCheckOnWake">true</bool>
 </resources>
