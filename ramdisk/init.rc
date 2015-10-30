@@ -305,6 +305,9 @@ on post-fs
     # create the lost+found directories, so as to enforce our permissions
     mkdir /cache/lost+found 0770 root root
 
+    # cpufreq interactive
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/boostpulse
+
 on post-fs-data
     # We chown/chmod /data again so because mount is run as root + defaults
     chown system system /data
