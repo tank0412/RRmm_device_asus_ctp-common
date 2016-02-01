@@ -1,3 +1,4 @@
+
 #
 # Copyright 2016 The Android Open-Source Project
 #
@@ -82,6 +83,7 @@ BUILD_ARM_FOR_X86 := true
 
 # IMG graphics
 ENABLE_IMG_GRAPHICS := true
+TARGET_DISABLE_CURSOR_LAYER := true
 COMMON_GLOBAL_CFLAGS += -DASUS_ZENFONE2_LP_BLOBS
 HWUI_IMG_FBO_CACHE_OPTIM := true
 
