@@ -67,6 +67,7 @@ BOARD_TOUCHSCREEN_DRIVER := synaptics_dsx
 # Charger
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_SHOW_PERCENTAGE := true
+BOARD_HEALTHD_CUSTOM_CHARGER_RES := device/asus/ctp-common/charger/images
 
 # Dex-preoptimization: Speeds up initial boot
 WITH_DEXPREOPT := true
