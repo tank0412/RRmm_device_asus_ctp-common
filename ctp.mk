@@ -266,5 +266,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(VENDOR_PATH)/ramdisk,root)
 
+
+# OTA Packaging / Bootimg creation
+PRODUCT_PACKAGES += \
+    pack_intel \
+    unpack_intel
 #$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4339/device-bcm.mk)
 $(call inherit-product-if-exists, vendor/asus/ctp-common/ctp-common-vendor.mk)

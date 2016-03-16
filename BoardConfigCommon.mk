@@ -225,3 +225,7 @@ TW_EXCLUDE_SUPERSU := false
 BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 BOARD_SUPPRESS_EMMC_WIPE := true
 
+
+# OTA Packaging / Bootimg creation
+BOARD_CUSTOM_BOOTIMG := true
+BOARD_CUSTOM_BOOTIMG_MK := device/asus/T00F/mkbootimg.mk
