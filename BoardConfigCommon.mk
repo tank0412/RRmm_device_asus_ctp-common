@@ -228,4 +228,5 @@ BOARD_SUPPRESS_EMMC_WIPE := true
 
 # OTA Packaging / Bootimg creation
 BOARD_CUSTOM_BOOTIMG := true
-BOARD_CUSTOM_BOOTIMG_MK := device/asus/T00F/mkbootimg.mk
+BOARD_CUSTOM_BOOTIMG_MK := device/asus/ctp-common/mkbootimg.mk
+NEED_KERNEL_MODULE_ROOT := true
