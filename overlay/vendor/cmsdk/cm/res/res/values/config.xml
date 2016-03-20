@@ -19,4 +19,9 @@
     <bool name="config_proximityCheckOnWake">true</bool>
     <integer name="config_proximityCheckTimeout">100</integer>
     <bool name="config_proximityCheckOnWakeEnabledByDefault">false</bool>
+
+     <!-- Default wi-fi hotspot ssid -->
+    <string name="config_wifiHotSpotSsid" translatable="false">Asus Zenfone Series</string>
+     <!-- Default wi-fi direct name -->
+     <string name="config_wifiDirectName" translatable="false">Asus Zenfone Series</string>
 </resources>
