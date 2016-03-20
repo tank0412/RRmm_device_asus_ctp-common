@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!--  Thermal Management Configuration File -->
 <!--  Intel Corporation 2011-2014  -->
@@ -48,6 +49,10 @@
 
   <Sensor>
       <SensorName>skin0</SensorName>
+      <SensorPath>auto</SensorPath>
+      <InputTemp>temp</InputTemp>
+      <HighTemp>trip_point1</HighTemp>
+      <LowTemp>trip_point0</LowTemp>
 <!--
       <SensorPath>auto</SensorPath>
       <InputTemp>temp</InputTemp>
@@ -56,6 +61,10 @@
 
   <Sensor>
       <SensorName>skin1</SensorName>
+      <SensorPath>auto</SensorPath>
+      <InputTemp>temp</InputTemp>
+      <HighTemp>trip_point1</HighTemp>
+      <LowTemp>trip_point0</LowTemp>
 <!--
       <SensorPath>auto</SensorPath>
       <InputTemp>temp</InputTemp>
@@ -74,27 +83,11 @@
 
   <Sensor>
       <SensorName>DTS</SensorName>
-  </Sensor>
-
-
-  <Sensor>
-      <!--Modem Sensor IDs are enumerated from OemtelephonyConstants class
-      during runtime-->
-      <SensorName>Modem_PCB</SensorName>
-      <SensorPath>none</SensorPath>
-      <InputTemp>invalid</InputTemp>
-  </Sensor>
-
-  <Sensor>
-      <SensorName>Modem_RF</SensorName>
-      <SensorPath>none</SensorPath>
-      <InputTemp>invalid</InputTemp>
-  </Sensor>
-
-  <Sensor>
-      <SensorName>Modem_BB</SensorName>
-      <SensorPath>none</SensorPath>
-      <InputTemp>invalid</InputTemp>
+      <SensorPath>/sys/devices/platform/coretemp.0/</SensorPath>
+      <InputTemp>temp2_input</InputTemp>
+      <HighTemp>temp2_threshold2</HighTemp>
+      <LowTemp>temp2_threshold1</LowTemp>
+      <UEventDevPath>none</UEventDevPath>
   </Sensor>
 
 <!--Thermal Zones-->
@@ -105,21 +98,21 @@
         <!--ZoneLogic: [ Raw | VirtualSkin | VirtualAmbient | Modem ]
         mandatory tag to be followed after ZoneID and ZoneName -->
 
-        <ZoneLogic>Raw</ZoneLogic>
+        <ZoneLogic>0</ZoneLogic>
         <!--If 1, supports UEvent, otherwise poll-->
         <SupportsUEvent>0</SupportsUEvent>
         <!--Debounce Interval for this Zone. In milli degrees-->
-        <DebounceInterval>2000</DebounceInterval>
+        <DebounceInterval>5000</DebounceInterval>
         <!--Temperature thresholds for various states in milli degree celsius-->
         <ZoneThreshold>
-            <ZoneThresholdNormal>90000</ZoneThresholdNormal>
-            <ZoneThresholdWarning>90000</ZoneThresholdWarning>
-            <ZoneThresholdAlert>90000</ZoneThresholdAlert>
+            <ZoneThresholdNormal>80000</ZoneThresholdNormal>
+            <ZoneThresholdWarning>95000</ZoneThresholdWarning>
+            <ZoneThresholdAlert>105000</ZoneThresholdAlert>
         </ZoneThreshold>
         <PollDelay>
             <DelayNormal>30000</DelayNormal>
             <DelayWarning>30000</DelayWarning>
-            <DelayAlert>30000</DelayAlert>
+            <DelayAlert>10000</DelayAlert>
         </PollDelay>
         <SensorAttrib>
             <SensorName>DTS</SensorName>
@@ -128,19 +121,19 @@
 
   <Zone>
         <ZoneID>1</ZoneID>
-        <ZoneName>BackSkin</ZoneName>
-        <ZoneLogic>Raw</ZoneLogic>
+        <ZoneName>BackLight</ZoneName>
+        <ZoneLogic>0</ZoneLogic>
         <SupportsUEvent>0</SupportsUEvent>
-        <DebounceInterval>2000</DebounceInterval>
+        <DebounceInterval>5000</DebounceInterval>
         <ZoneThreshold>
-            <ZoneThresholdNormal>44000</ZoneThresholdNormal>
-            <ZoneThresholdWarning>54000</ZoneThresholdWarning>
-            <ZoneThresholdAlert>74000</ZoneThresholdAlert>
+            <ZoneThresholdNormal>50000</ZoneThresholdNormal>
+            <ZoneThresholdWarning>65000</ZoneThresholdWarning>
+            <ZoneThresholdAlert>75000</ZoneThresholdAlert>
         </ZoneThreshold>
         <PollDelay>
-               <DelayNormal>30000</DelayNormal>
-               <DelayWarning>30000</DelayWarning>
-               <DelayAlert>30000</DelayAlert>
+            <DelayNormal>30000</DelayNormal>
+            <DelayWarning>30000</DelayWarning>
+            <DelayAlert>10000</DelayAlert>
         </PollDelay>
         <SensorAttrib>
             <SensorName>skin1</SensorName>
@@ -149,112 +142,23 @@
 
   <Zone>
        <ZoneID>2</ZoneID>
-       <ZoneName>FrontSkin</ZoneName>
-       <ZoneLogic>Raw</ZoneLogic>
+       <ZoneName>NearSOC</ZoneName>
+       <ZoneLogic>0</ZoneLogic>
        <SupportsUEvent>0</SupportsUEvent>
-       <DebounceInterval>2000</DebounceInterval>
+       <DebounceInterval>5000</DebounceInterval>
        <ZoneThreshold>
-           <ZoneThresholdNormal>40000</ZoneThresholdNormal>
-           <ZoneThresholdWarning>44000</ZoneThresholdWarning>
-           <ZoneThresholdAlert>64000</ZoneThresholdAlert>
+           <ZoneThresholdNormal>50000</ZoneThresholdNormal>
+           <ZoneThresholdWarning>65000</ZoneThresholdWarning>
+           <ZoneThresholdAlert>75000</ZoneThresholdAlert>
        </ZoneThreshold>
        <PollDelay>
-              <DelayNormal>30000</DelayNormal>
-              <DelayWarning>30000</DelayWarning>
-              <DelayAlert>30000</DelayAlert>
+           <DelayNormal>30000</DelayNormal>
+           <DelayWarning>30000</DelayWarning>
+           <DelayAlert>10000</DelayAlert>
        </PollDelay>
        <SensorAttrib>
            <SensorName>skin0</SensorName>
        </SensorAttrib>
   </Zone>
 
-  <Zone>
-       <ZoneID>3</ZoneID>
-       <ZoneName>Battery</ZoneName>
-       <ZoneLogic>Raw</ZoneLogic>
-       <SupportsUEvent>0</SupportsUEvent>
-       <DebounceInterval>2000</DebounceInterval>
-       <ZoneThreshold>
-           <ZoneThresholdNormal>48000</ZoneThresholdNormal>
-           <ZoneThresholdWarning>54000</ZoneThresholdWarning>
-           <ZoneThresholdAlert>60000</ZoneThresholdAlert>
-       </ZoneThreshold>
-       <PollDelay>
-              <DelayNormal>30000</DelayNormal>
-              <DelayWarning>30000</DelayWarning>
-              <DelayAlert>30000</DelayAlert>
-       </PollDelay>
-       <SensorAttrib>
-           <SensorName>battery</SensorName>
-       </SensorAttrib>
-  </Zone>
-
-  <Zone>
-        <ZoneID>4</ZoneID>
-        <ZoneName>GPUSkin</ZoneName>
-        <ZoneLogic>Raw</ZoneLogic>
-        <SupportsUEvent>0</SupportsUEvent>
-        <DebounceInterval>2000</DebounceInterval>
-        <ZoneThreshold>
-            <ZoneThresholdNormal>45000</ZoneThresholdNormal>
-            <ZoneThresholdWarning>50000</ZoneThresholdWarning>
-            <ZoneThresholdAlert>74000</ZoneThresholdAlert>
-        </ZoneThreshold>
-        <PollDelay>
-               <DelayNormal>30000</DelayNormal>
-               <DelayWarning>30000</DelayWarning>
-               <DelayAlert>30000</DelayAlert>
-        </PollDelay>
-        <SensorAttrib>
-            <SensorName>skin1</SensorName>
-        </SensorAttrib>
-  </Zone>
-
-  <Zone>
-        <ZoneID>6</ZoneID>
-        <ZoneName>CPUSkin</ZoneName>
-        <ZoneLogic>Raw</ZoneLogic>
-        <SupportsUEvent>0</SupportsUEvent>
-        <DebounceInterval>2000</DebounceInterval>
-        <ZoneThreshold>
-            <ZoneThresholdNormal>42000</ZoneThresholdNormal>
-            <ZoneThresholdWarning>47000</ZoneThresholdWarning>
-            <ZoneThresholdAlert>74000</ZoneThresholdAlert>
-        </ZoneThreshold>
-        <PollDelay>
-               <DelayNormal>30000</DelayNormal>
-               <DelayWarning>30000</DelayWarning>
-               <DelayAlert>30000</DelayAlert>
-        </PollDelay>
-        <SensorAttrib>
-            <SensorName>skin1</SensorName>
-        </SensorAttrib>
-  </Zone>
-
-  <Zone>
-    <ZoneID>5</ZoneID>
-    <ZoneName>Modem</ZoneName>
-    <ZoneLogic>Modem</ZoneLogic>
-    <SupportsUEvent>0</SupportsUEvent>
-    <DebounceInterval>2000</DebounceInterval>
-    <ZoneThreshold>
-        <ZoneThresholdNormal>80000</ZoneThresholdNormal>
-        <ZoneThresholdWarning>85000</ZoneThresholdWarning>
-        <ZoneThresholdAlert>90000</ZoneThresholdAlert>
-    </ZoneThreshold>
-    <PollDelay>
-      <DelayNormal>30000</DelayNormal>
-      <DelayWarning>30000</DelayWarning>
-      <DelayAlert>30000</DelayAlert>
-    </PollDelay>
-    <SensorAttrib>
-        <SensorName>Modem_PCB</SensorName>
-    </SensorAttrib>
-    <SensorAttrib>
-        <SensorName>Modem_RF</SensorName>
-    </SensorAttrib>
-    <SensorAttrib>
-        <SensorName>Modem_BB</SensorName>
-    </SensorAttrib>
-  </Zone>
 </thermalconfig>
