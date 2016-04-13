@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<permissions>
+	<library name="com.intel.internal.telephony.MmgrClient" file="/system/framework/com.intel.internal.telephony.MmgrClient.jar" />
+</permissions>
