@@ -79,7 +79,7 @@ BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_SHOW_PERCENTAGE := true
 
 # Dex-preoptimization: Speeds up initial boot
-WITH_DEXPREOPT := true
+#WITH_DEXPREOPT := true
 
 # Hardware
 BOARD_HARDWARE_CLASS := device/asus/ctp-common/cmhw
