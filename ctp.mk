@@ -243,6 +243,15 @@ PRODUCT_PACKAGES += \
 	screencap \
 	procmem \
 	procrank
+	
+#ituxd for intel thermal management
+ENABLE_ITUXD := true
+PRODUCT_PACKAGES += \
+  ituxd
+
+# sbin/thermald
+PRODUCT_PACKAGES += \
+  thermald
 
 
 
