@@ -28,6 +28,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.build.asus.sku=WW
 
+# PC Link Manager
+PRODUCT_PACKAGES += \
+	PCLinkManager
+
 # Audio
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
@@ -49,7 +53,6 @@ PRODUCT_COPY_FILES += \
 # Camera
 PRODUCT_PACKAGES += \
 	Snap \
-	camera.redhookbay \
 	bspcapability
 
 # Health Deamon
@@ -83,9 +86,7 @@ PRODUCT_PACKAGES += \
 # MmgrClient, OemTelephonyApp and SARManager
 PRODUCT_PACKAGES += \
 	com.intel.internal.telephony.MmgrClient.xml \
-	com.intel.internal.telephony.MmgrClient \
-	OemTelephonyApp \
-	SARManager
+	com.intel.internal.telephony.MmgrClient
 
 # Keystore
 PRODUCT_PACKAGES += \
@@ -120,10 +121,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	rild.libpath=/system/lib/librapid-ril-core.so \
 	ro.ril.telephony.mqanelements=5 \
 	ro.telephony.ril.config=simactivation,sim2gsmonly \
-	ro.telephony.default_network=9,1
+	ro.telephony.default_network=0,0
 
 PRODUCT_PACKAGES += \
-	rild \
 	radiooptions \
 	libril \
 	libreference-ril
@@ -233,15 +233,6 @@ PRODUCT_PACKAGES += \
 	screencap \
 	procmem \
 	procrank
-	
-#ituxd for intel thermal management
-ENABLE_ITUXD := true
-PRODUCT_PACKAGES += \
-  ituxd
-
-# sbin/thermald
-PRODUCT_PACKAGES += \
-  thermald
 
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4339/device-bcm.mk)
 $(call inherit-product-if-exists, vendor/asus/ctp-common/ctp-common-vendor.mk)

@@ -92,26 +92,12 @@ LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/permissions
 LOCAL_SRC_FILES := com.intel.widi.sink/com.intel.widi.sink.xml
 include $(BUILD_PREBUILT)
 
-# OemTelephonyApp
+# PCLinkManager
 # ============================================================
 include $(CLEAR_VARS)
-LOCAL_MODULE := OemTelephonyApp
+LOCAL_MODULE := PCLinkManager
 LOCAL_MODULE_TAGS := optional
-LOCAL_SRC_FILES := OemTelephonyApp/OemTelephonyApp.apk
-LOCAL_MODULE_CLASS := APPS
-LOCAL_DEX_PREOPT := true
-LOCAL_CERTIFICATE := platform
-LOCAL_MODULE_PATH:=$(TARGET_OUT_APPS_PRIVILEGED)
-LOCAL_PRIVILEGED_MODULE := true
-LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
-include $(BUILD_PREBUILT)
-
-# SARManager
-# ============================================================
-include $(CLEAR_VARS)
-LOCAL_MODULE := SARManager
-LOCAL_MODULE_TAGS := optional
-LOCAL_SRC_FILES := SARManager/SARManager.apk
+LOCAL_SRC_FILES := PCLinkManager/PCLinkManager.apk
 LOCAL_MODULE_CLASS := APPS
 LOCAL_DEX_PREOPT := true
 LOCAL_CERTIFICATE := platform

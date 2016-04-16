@@ -31,23 +31,6 @@ TARGET_BOARD_PLATFORM := clovertrail
 TARGET_BOOTLOADER_BOARD_NAME := clovertrail
 TARGET_USERIMAGES_USE_EXT4 := true
 
-#Use Intel camera extras (HDR, face detection, panorama, etc.) by default
-USE_INTEL_CAMERA_EXTRAS := true
-
-# select libcamera2 as the camera HAL
-USE_CAMERA_HAL2 := true
-USE_CSS_1_5 := true
-USE_CSS_2_0 := true
-USE_CSS_2_1 := true
-USE_INTEL_METABUFFER := true
-USE_INTEL_JPEG := true
-USE_CAMERA_IO_BREAKDOWN := true
-
-
-# disable the new V3 HAL by default so it can be added to the tree without conflicts
-# it will be enabled in selected platforms
-USE_CAMERA_HAL_3 := false
-
 # ADB
 BOARD_FUNCTIONFS_HAS_SS_COUNT := true
 
@@ -79,7 +62,7 @@ BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_SHOW_PERCENTAGE := true
 
 # Dex-preoptimization: Speeds up initial boot
-#WITH_DEXPREOPT := true
+WITH_DEXPREOPT := true
 
 # Hardware
 BOARD_HARDWARE_CLASS := device/asus/ctp-common/cmhw
@@ -121,14 +104,9 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 # PowerHAL
 TARGET_POWERHAL_VARIANT := clovertrail
 
-# RIL Daemon
+# Radio
 BOARD_PROVIDES_RILD := true
-BOARD_HAVE_MODEM := true
-RIL_SUPPORTS_SEEK := true
 BOARD_PROVIDES_LIBRIL := true
-SIM_COUNT := 2
-ANDROID_MULTI_SIM := true
-TARGET_RIL_DISABLE_STATUS_POLLING := true
 
 # MultiDisplay
 TARGET_USE_DUMMY_MULTIPLE_DISPLAY := false
