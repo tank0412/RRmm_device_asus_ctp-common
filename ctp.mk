@@ -149,6 +149,15 @@ PRODUCT_PACKAGES += \
 	libmultidisplay \
 	libmultidisplayjni
 
+#ituxd for intel thermal management
+ENABLE_ITUXD := true
+PRODUCT_PACKAGES += \
+   ituxd
+ 
+# sbin/thermald
+ PRODUCT_PACKAGES += \
+   thermald
+   
 # Permissions
 PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
