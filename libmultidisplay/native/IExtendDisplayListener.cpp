@@ -25,6 +25,7 @@ namespace android {
 namespace intel {
 
 int BpExtendDisplayListener::onMdsMessage(int msg, void* value, int size) {
+    ALOGV("IMDS-Native: IExtendDisplayListener.cpp: onMdsMessage");
     ALOGV("%s: mode %d", __func__, msg);
     Parcel data, reply;
     data.writeInterfaceToken(IExtendDisplayListener::getInterfaceDescriptor());
@@ -45,6 +46,7 @@ status_t BnExtendDisplayListener::onTransact(uint32_t code,
         const Parcel& data,
         Parcel* reply,
         uint32_t flags) {
+    ALOGV("IMDS-Native: IExtendDisplayListener.cpp: onTransact");
     switch (code) {
     case ON_MDS_EVENT: {
         ALOGV("%s: ON_MDS_EVENT", __func__);

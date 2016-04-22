@@ -68,7 +68,9 @@ BOARD_CHARGER_SHOW_PERCENTAGE := true
 WITH_DEXPREOPT := true
 
 # Hardware
-BOARD_HARDWARE_CLASS := device/asus/ctp-common/cmhw
+BOARD_HARDWARE_CLASS := \
+	device/asus/ctp-common/cmhw \
+	hardware/cyanogen/cmhw
 
 # Healthd
 BOARD_HAL_STATIC_LIBRARIES := libhealthd.clovertrail
@@ -115,6 +117,9 @@ BOARD_PROVIDES_LIBRIL := true
 TARGET_USE_DUMMY_MULTIPLE_DISPLAY := false
 TARGET_HAS_MULTIPLE_DISPLAY := true
 USE_MDS_LEGACY := true
+
+# Font
+EXTENDED_FONT_FOOTPRINT := true
 
 # Double-Tap-To-Wake
 TARGET_TAP_TO_WAKE_NODE := "/sys/devices/pci0000:00/0000:00:00.3/i2c-0/0-0020/input/input1/dclick_mode"

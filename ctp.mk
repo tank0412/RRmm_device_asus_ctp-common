@@ -57,7 +57,8 @@ PRODUCT_PACKAGES += \
 
 # Health Deamon
 PRODUCT_PACKAGES += \
-	libhealthd.clovertrail
+	libhealthd.clovertrail \
+	healthd
 
 # Dalvik
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -113,15 +114,16 @@ PRODUCT_PACKAGES += \
 
 # PowerHAL
 PRODUCT_PACKAGES += \
-	power.clovertrail
+	power.clovertrail \
+	thermald
 
 # RIL
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.ril.status.polling.enable=0 \
 	rild.libpath=/system/lib/librapid-ril-core.so \
 	ro.ril.telephony.mqanelements=5 \
-	ro.telephony.ril.config=simactivation,sim2gsmonly \
-	ro.telephony.default_network=0,0
+	ro.telephony.ril.config=simactivation \
+	ro.telephony.default_network=3,3
 
 PRODUCT_PACKAGES += \
 	radiooptions \
@@ -147,7 +149,8 @@ PRODUCT_PACKAGES += \
 	com.intel.multidisplay \
 	com.intel.multidisplay.xml \
 	libmultidisplay \
-	libmultidisplayjni
+	libmultidisplayjni \
+	libmultidisplayvideoclient
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -233,10 +236,20 @@ PRODUCT_PACKAGES += \
 	screencap \
 	procmem \
 	procrank
-	
+
 #CM ACT
 PRODUCT_PACKAGES += \
     CMActions 
+
+
+#ituxd for intel thermal management
+#ENABLE_ITUXD := true
+#PRODUCT_PACKAGES += \
+   ituxd
+ 
+# sbin/thermald
+ #PRODUCT_PACKAGES += \
+   thermald
 
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4339/device-bcm.mk)
 $(call inherit-product-if-exists, vendor/asus/ctp-common/ctp-common-vendor.mk)

@@ -35,6 +35,7 @@ namespace intel {
 
 
 MultiDisplayVideoClient::MultiDisplayVideoClient() {
+    ALOGV("IMDS-VideoClient: MultiDisplayVideoClient.cpp: ::MultiDisplayVideoClient");
     mSessionId = -1;
     mState = MDS_VIDEO_UNPREPARED;
     mVideo = NULL;
@@ -47,12 +48,14 @@ MultiDisplayVideoClient::~MultiDisplayVideoClient() {
 };
 
 void MultiDisplayVideoClient::close() {
+    ALOGV("IMDS-VideoClient: MultiDisplayVideoClient.cpp: close");
     mSessionId = -1;
     mState = MDS_VIDEO_UNPREPARED;
     mVideo = NULL;
 }
 
 status_t MultiDisplayVideoClient::prepare(int state, bool isProtected) {
+    ALOGV("IMDS-VideoClient: MultiDisplayVideoClient.cpp: prepare");
     if (state >= MDS_VIDEO_UNPREPARING && mSessionId < 0) {
         ALOGW("Invalid unprepared state");
         return UNKNOWN_ERROR;
@@ -79,6 +82,7 @@ status_t MultiDisplayVideoClient::prepare(int state, bool isProtected) {
 }
 status_t MultiDisplayVideoClient::setVideoState(int state,
         bool isProtected, const sp<MetaData> &meta) {
+    ALOGV("IMDS-VideoClient: MultiDisplayVideoClient.cpp: setVideoState+1");
     if (prepare(state, isProtected) != NO_ERROR)
         return UNKNOWN_ERROR;
 
@@ -111,6 +115,7 @@ status_t MultiDisplayVideoClient::setVideoState(int state,
 
 status_t MultiDisplayVideoClient::setVideoState(int state,
         bool isProtected, const sp<AMessage> &msg) {
+    ALOGV("IMDS-VideoClient: MultiDisplayVideoClient.cpp: setVideoState+2");
     if (prepare(state, isProtected) != NO_ERROR)
         return UNKNOWN_ERROR;
     if (state == MDS_VIDEO_PREPARED) {
@@ -141,6 +146,7 @@ status_t MultiDisplayVideoClient::setVideoState(int state,
 }
 
 status_t MultiDisplayVideoClient::reset() {
+    ALOGV("IMDS-VideoClient: MultiDisplayVideoClient.cpp: reset");
     if (mVideo != NULL)
         return  mVideo->resetVideoPlayback();
     else

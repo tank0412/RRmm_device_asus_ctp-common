@@ -37,6 +37,7 @@ do { \
 } while(0)
 
 MultiDisplayClient::MultiDisplayClient() {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: ::MultiDisplayClient");
     mIMDComposer = NULL;
     sp<IServiceManager> sm = defaultServiceManager();
     if (sm == NULL) {
@@ -58,26 +59,31 @@ MultiDisplayClient::~MultiDisplayClient() {
 }
 
 int MultiDisplayClient::setModePolicy(int policy) {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: setModePolicy");
     MDC_CHECK_IMDC();
     return mIMDComposer->setModePolicy(policy);
 }
 
 int MultiDisplayClient::getDisplayMode(bool wait) {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: getDisplayMode");
     MDC_CHECK_IMDC();
     return mIMDComposer->getMode(wait);
 }
 
 int MultiDisplayClient::notifyWidi(bool on) {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: notifyWidi");
     MDC_CHECK_IMDC();
     return mIMDComposer->notifyWidi(on);
 }
 
 int MultiDisplayClient::notifyMipi(bool on) {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: notifyMipi");
     MDC_CHECK_IMDC();
     return mIMDComposer->notifyMipi(on);
 }
 
 MDS_VIDEO_STATE MultiDisplayClient::getVideoState(int sessionId) {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: getVideoState");
     if (mIMDComposer == NULL)
         return MDS_VIDEO_UNPREPARED;
     int state = mIMDComposer->getVideoState();
@@ -87,6 +93,7 @@ MDS_VIDEO_STATE MultiDisplayClient::getVideoState(int sessionId) {
 }
 
 int MultiDisplayClient::resetVideoPlayback() {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: resetVideoPlayback");
     MDC_CHECK_IMDC();
     mIMDComposer->prepareForVideo(MDS_VIDEO_UNPREPARED);
     MDSVideoSourceInfo info;
@@ -95,74 +102,88 @@ int MultiDisplayClient::resetVideoPlayback() {
 }
 
 int MultiDisplayClient::allocateVideoSessionId() {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: allocateVideoSessionId");
     MDC_CHECK_IMDC();
     return 0;
 }
 
 int MultiDisplayClient::updateVideoState(int sessionId, int status) {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: updateVideoState");
     MDC_CHECK_IMDC();
     return mIMDComposer->prepareForVideo(status);
 }
 
 int MultiDisplayClient::updateVideoSourceInfo(int sessionId, const MDSVideoSourceInfo& info) {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: updateVideoSourceInfo");
     MDC_CHECK_IMDC();
     return mIMDComposer->updateVideoInfo(info);
 }
 
 int MultiDisplayClient::notifyHotPlug() {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: notifyHotPlug");
     MDC_CHECK_IMDC();
     return mIMDComposer->notifyHotPlug();
 }
 
 int MultiDisplayClient::setHdmiPowerOff() {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: setHdmiPowerOff");
     MDC_CHECK_IMDC();
     return mIMDComposer->setHdmiPowerOff();
 }
 
 int MultiDisplayClient::registerListener(
         sp<IExtendDisplayListener> listener, char* client, int msg) {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: registerListener");
     MDC_CHECK_IMDC();
     return mIMDComposer->registerListener(listener,
             static_cast<void *>(this), client, msg);
 }
 
 int MultiDisplayClient::unregisterListener() {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: unregisterListener");
     MDC_CHECK_IMDC();
     return mIMDComposer->unregisterListener(static_cast<void *>(this));
 }
 
 
 int MultiDisplayClient::getHdmiModeInfo(int* width, int* height, int* refresh, int* interlace, int *ratio) {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: getHdmiModeInfo");
     MDC_CHECK_IMDC();
     return mIMDComposer->getHdmiModeInfo(width, height, refresh, interlace, ratio);
 }
 
 int MultiDisplayClient::setHdmiModeInfo(int width, int height, int refresh, int interlace, int ratio) {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: setHdmiModeInfo");
     MDC_CHECK_IMDC();
     return mIMDComposer->setHdmiModeInfo(width, height, refresh, interlace, ratio);
 }
 
 int MultiDisplayClient::setHdmiScaleType(int type) {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: setHdmiScaleType");
     MDC_CHECK_IMDC();
     return mIMDComposer->setHdmiScaleType(type);
 }
 
 int MultiDisplayClient::setHdmiScaleStep(int hValue, int vValue) {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: setHdmiScaleStep");
     MDC_CHECK_IMDC();
     return mIMDComposer->setHdmiScaleStep(hValue, vValue);
 }
 
 int MultiDisplayClient::getHdmiDeviceChange() {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: getHdmiDeviceChange");
     MDC_CHECK_IMDC();
     return mIMDComposer->getHdmiDeviceChange();
 }
 
 int MultiDisplayClient::getVideoInfo(int* displayW, int* displayH, int* fps, int* interlace) {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: getVideoInfo");
     MDC_CHECK_IMDC();
     return mIMDComposer->getVideoInfo(displayW, displayH, fps, interlace);
 }
 
 int MultiDisplayClient::getDisplayCapability() {
+    ALOGV("IMDS-Native: MultiDisplayClient.cpp: getDisplayCapability");
     MDC_CHECK_IMDC();
     return mIMDComposer->getDisplayCapability();
 }

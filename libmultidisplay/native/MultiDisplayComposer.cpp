@@ -40,6 +40,7 @@ do { \
 
 MultiDisplayListener::MultiDisplayListener(int msg,
         const char* client, sp<IExtendDisplayListener> listener) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: ::MultiDisplayListener");
     mMsg = msg;
     int len = strlen(client) + 1;
     mName = new char[len];
@@ -58,6 +59,7 @@ MultiDisplayListener::~MultiDisplayListener() {
 }
 
 MultiDisplayComposer::MultiDisplayComposer() {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: ::MultiDisplayComposer");
     mDrmInit = false;
     mMode = 0;
     mMipiPolicy = MDS_MIPI_OFF_NOT_ALLOWED;
@@ -86,6 +88,7 @@ MultiDisplayComposer::~MultiDisplayComposer() {
 }
 
 int MultiDisplayComposer::getMode(bool wait) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: getMode");
     MDC_CHECK_INIT();
     if (wait)
         mLock.lock();
@@ -101,6 +104,7 @@ int MultiDisplayComposer::getMode(bool wait) {
 }
 
 int MultiDisplayComposer::notifyWidi(bool on) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: notifyWidi");
     MDC_CHECK_INIT();
     Mutex::Autolock _l(mMipiLock);
     mWidiVideoExt = on;
@@ -113,6 +117,7 @@ int MultiDisplayComposer::notifyWidi(bool on) {
 }
 
 int MultiDisplayComposer::notifyMipi(bool on) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: notifyMipi");
     MDC_CHECK_INIT();
     Mutex::Autolock _l(mMipiLock);
     mMipiReq = on ? MIPI_ON_REQ : MIPI_OFF_REQ;
@@ -121,6 +126,7 @@ int MultiDisplayComposer::notifyMipi(bool on) {
 }
 
 int MultiDisplayComposer::setHdmiPowerOff() {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: setHdmiPowerOff");
     MDC_CHECK_INIT();
     Mutex::Autolock _l(mLock);
     drm_hdmi_setHdmiPowerOff();
@@ -128,6 +134,7 @@ int MultiDisplayComposer::setHdmiPowerOff() {
 }
 
 int MultiDisplayComposer::prepareForVideo(int status) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: prepareForVideo");
     MDC_CHECK_INIT();
     Mutex::Autolock _l(mLock);
     if (mVideoState == status)
@@ -144,12 +151,14 @@ int MultiDisplayComposer::prepareForVideo(int status) {
 }
 
 int MultiDisplayComposer::getVideoState() {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: getVideoState");
     MDC_CHECK_INIT();
     Mutex::Autolock _l(mLock);
     return mVideoState;
 }
 
 int MultiDisplayComposer::updateVideoInfo(const MDSVideoSourceInfo& info) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: updateVideoInfo");
     MDC_CHECK_INIT();
     Mutex::Autolock _l(mLock);
     ALOGV("update video info: \
@@ -170,6 +179,7 @@ int MultiDisplayComposer::updateVideoInfo(const MDSVideoSourceInfo& info) {
 
 
 int MultiDisplayComposer::setHdmiMode_l() {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: setHdmiMode_l");
     ALOGV("Entering %s, current mode = %#x", __func__, mMode);
     MDSHDMITiming timing;
     memset(&timing, 0, sizeof(MDSHDMITiming));
@@ -352,6 +362,7 @@ int MultiDisplayComposer::setHdmiMode_l() {
 }
 
 void MultiDisplayComposer::broadcastMessage_l(int msg, void* value, int size) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: broadcastMessage_l");
     for (unsigned int index = 0; index < mListener.size(); index++) {
         MultiDisplayListener* listener = mListener.valueAt(index);
         if (listener == NULL)
@@ -367,6 +378,7 @@ void MultiDisplayComposer::broadcastMessage_l(int msg, void* value, int size) {
 }
 
 int MultiDisplayComposer::setHdmiTiming_l(void* value, int size) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: setHdmiTiming_l");
     int ret = MDS_ERROR;
     sp<IExtendDisplayListener> ielistener = NULL;
     bool hasHwc = false;
@@ -392,6 +404,7 @@ int MultiDisplayComposer::setHdmiTiming_l(void* value, int size) {
 }
 
 int MultiDisplayComposer::setMipiMode_l(bool on) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: setMipiMode_l");
     Mutex::Autolock _l(mLock);
 
     if (mMipiOn == on)
@@ -422,6 +435,7 @@ int MultiDisplayComposer::setMipiMode_l(bool on) {
 }
 
 int MultiDisplayComposer::notifyHotPlug() {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: notifyHotPlug");
     int ret = MDS_ERROR;
     MDC_CHECK_INIT();
     ALOGV("%s: mipi policy: %d, hdmi policy: %d, mode: 0x%x", __func__, mMipiPolicy, mHdmiPolicy, mMode);
@@ -433,12 +447,14 @@ int MultiDisplayComposer::notifyHotPlug() {
 }
 
 int MultiDisplayComposer::setModePolicy(int policy) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: setModePolicy");
     MDC_CHECK_INIT();
     Mutex::Autolock _l(mLock);
     return setModePolicy_l(policy);
 }
 
 int MultiDisplayComposer::setModePolicy_l(int policy) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: setModePolicy_l");
     int ret = 0;
     unsigned int index = 0;
     ALOGI("%s: policy %d, mHdmiPolicy 0x%x, mMipiPolicy 0x%x, mMode: 0x%x",
@@ -475,6 +491,7 @@ int MultiDisplayComposer::setModePolicy_l(int policy) {
 int MultiDisplayComposer::registerListener(
                 sp<IExtendDisplayListener> listener,
                 void *handle, const char* name, int msg) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: registerListener");
     unsigned int i = 0;
     MDC_CHECK_INIT();
     if (name == NULL || msg == 0) {
@@ -494,6 +511,7 @@ int MultiDisplayComposer::registerListener(
 }
 
 int MultiDisplayComposer::unregisterListener(void *handle) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: unregisterListener");
     unsigned int i = 0;
     MDC_CHECK_INIT();
     Mutex::Autolock _l(mLock);
@@ -510,12 +528,14 @@ int MultiDisplayComposer::unregisterListener(void *handle) {
 }
 
 int MultiDisplayComposer::getHdmiPlug_l() {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: getHdmiPlug_l");
     return drm_hdmi_getConnectionStatus();
 }
 
 int MultiDisplayComposer::getHdmiModeInfo(int* pWidth, int* pHeight,
                                           int* pRefresh, int* pInterlace,
                                           int *pRatio) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: getHdmiModeInfo");
     MDC_CHECK_INIT();
     Mutex::Autolock _l(mLock);
     ALOGV("%s: mMode: 0x%x", __func__, mMode);
@@ -528,6 +548,7 @@ int MultiDisplayComposer::getHdmiModeInfo(int* pWidth, int* pHeight,
 
 int MultiDisplayComposer::setHdmiModeInfo(int width, int height,
                             int refresh, int interlace, int ratio) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: setHdmiModeInfo");
     MDSHDMITiming timing;
     MDC_CHECK_INIT();
     Mutex::Autolock _l(mLock);
@@ -549,6 +570,7 @@ int MultiDisplayComposer::setHdmiModeInfo(int width, int height,
 
 int MultiDisplayComposer::setDisplayScalingLocked(uint32_t mode,
          uint32_t stepx, uint32_t stepy) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: setDisplayScalingLocked");
     if (mSurfaceComposer == NULL) {
         const sp<IServiceManager> sm = defaultServiceManager();
         const String16 name("SurfaceFlinger");
@@ -570,6 +592,7 @@ int MultiDisplayComposer::setDisplayScalingLocked(uint32_t mode,
 }
 
 int MultiDisplayComposer::setHdmiScaleType(int type) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: setHdmiScaleType");
     MDC_CHECK_INIT();
     Mutex::Autolock _l(mLock);
 
@@ -578,6 +601,7 @@ int MultiDisplayComposer::setHdmiScaleType(int type) {
 }
 
 int MultiDisplayComposer::setHdmiScaleStep(int hValue, int vValue) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: setHdmiScaleStep");
     MDC_CHECK_INIT();
     Mutex::Autolock _l(mLock);
 
@@ -587,12 +611,14 @@ int MultiDisplayComposer::setHdmiScaleStep(int hValue, int vValue) {
 }
 
 int MultiDisplayComposer::getHdmiDeviceChange() {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: getHdmiDeviceChange");
     MDC_CHECK_INIT();
     Mutex::Autolock _l(mLock);
     return drm_hdmi_isDeviceChanged(true);
 }
 
 int MultiDisplayComposer::getVideoInfo(int* dw, int* dh, int* fps, int* interlaced) {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: getVideoInfo");
     MDC_CHECK_INIT();
     //TODO: here don't need to lock mLock
     if (!mVideo.isPlaying) {
@@ -611,6 +637,7 @@ int MultiDisplayComposer::getVideoInfo(int* dw, int* dh, int* fps, int* interlac
 }
 
 void MultiDisplayComposer::initialize_l() {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: initialize_l");
     if (!drm_init()) {
         ALOGE("%s: drm_init fails.", __func__);
         return;
@@ -627,10 +654,12 @@ void MultiDisplayComposer::initialize_l() {
 }
 
 int MultiDisplayComposer::getDisplayCapability() {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: getDisplayCapability");
     return mDisplayCapability;
 }
 
 bool MultiDisplayComposer::threadLoop() {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: threadLoop");
     bool mipiOn;
     while(true) {
         {
@@ -646,6 +675,7 @@ bool MultiDisplayComposer::threadLoop() {
 }
 
 bool MultiDisplayComposer::isHdmiTimingDynamicSettingEnable_l() {
+    ALOGV("IMDS-Native: MultiDisplayComposer.cpp: isHdmiTimingDynamicSettingEnable_l");
     // Always enable dynamic setting for video playback
     return true;
     // Presentation mode checking depends on GFX SF patch,

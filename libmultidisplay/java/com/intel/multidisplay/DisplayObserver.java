@@ -100,6 +100,7 @@ public class DisplayObserver extends UEventObserver {
     private final BroadcastReceiver mReceiver = new DisplayObserverBroadcastReceiver();
 
     public DisplayObserver(Context context, WindowManagerPolicy.WindowManagerFuncs funcs) {
+        logv("IMDS-Java: DisplayObserver.java: DisplayObserver");
         mContext = context;
         mDs = new DisplaySetting();
         IntentFilter intentFilter = new IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
@@ -138,6 +139,7 @@ public class DisplayObserver extends UEventObserver {
     }
 
     private boolean checkDisplayCapability(int value) {
+        logv("IMDS-Java: DisplayObserver.java: checkDisplayCapability");
         if ((mDisplayCapability & value) == value)
             return true;
         return false;
@@ -146,6 +148,7 @@ public class DisplayObserver extends UEventObserver {
     DisplaySetting.onMdsMessageListener mListener =
                         new DisplaySetting.onMdsMessageListener() {
         public boolean onMdsMessage(int msg, int value) {
+            logv("IMDS-Java: DisplayObserver.java: mListener.onMdsMessage");
             if (msg == mDs.MDS_MODE_CHANGE) {
                 //logv("mode is changed to 0x" + Integer.toHexString(value));
                 mMdsMode = value;
@@ -176,6 +179,7 @@ public class DisplayObserver extends UEventObserver {
 
     @Override
     public synchronized void onUEvent(UEventObserver.UEvent event) {
+        logv("IMDS-Java: DisplayObserver.java: onUEvent");
         if (event.toString().contains("HOTPLUG")) {
             logv("HDMI UEVENT: " + event.toString());
             int delay = 0;
@@ -242,6 +246,7 @@ public class DisplayObserver extends UEventObserver {
     // type:  Externale display type, refer DisplaySetting.java
     // state: connection state
     private final void sendEdpConnectionChangeIntent(int type, int state) {
+        logv("IMDS-Java: DisplayObserver.java: sendEdpConnectionChangeIntent");
         logv("Dislay " + type + ", state " + state);
         Intent intent = new Intent(mDs.MDS_EDP_HOTPLUG);
         intent.addFlags(Intent.FLAG_RECEIVER_REGISTERED_ONLY);
@@ -253,6 +258,7 @@ public class DisplayObserver extends UEventObserver {
     }
 
     private final void preNotifyHotplug(int event) {
+        logv("IMDS-Java: DisplayObserver.java: preNotifyHotplug");
         // no matter plug in or out, remove previous power off msg
         mHandler.removeMessages(HDMI_POWER_OFF);
         // set HDMI connect status per plug event
@@ -265,6 +271,7 @@ public class DisplayObserver extends UEventObserver {
     }
 
     private final void postNotifyHotplug(int event) {
+        logv("IMDS-Java: DisplayObserver.java: postNotifyHotplug");
         /* plug out event */
         if (event == 0) {
             //update("HOTPLUG", ROUTE_TO_SPEAKER);
@@ -280,6 +287,7 @@ public class DisplayObserver extends UEventObserver {
     }
 
     private final void setHdmiPolicy(int policy) {
+        logv("IMDS-Java: DisplayObserver.java: setHdmiPolicy");
         if (!checkDisplayCapability(mDs.HW_SUPPORT_HDMI))
             return;
         if (policy != mHdmiPolicy &&
@@ -290,6 +298,7 @@ public class DisplayObserver extends UEventObserver {
     }
 
     private final void setLandscape(int landscape) {
+        logv("IMDS-Java: DisplayObserver.java: setLandscape");
         if (landscape == 1 && RotationPolicy.isRotationLocked(mContext)) {
             //logv("Rotation is already locked");
             return;
@@ -313,6 +322,7 @@ public class DisplayObserver extends UEventObserver {
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            logv("IMDS-Java: DisplayObserver.java: mHandler.handleMessage");
             //logv("handle message = " + (String)msg.obj);
             switch(msg.what) {
             //case HDMI_STATE_CHANGE:
@@ -349,6 +359,7 @@ public class DisplayObserver extends UEventObserver {
     private class DisplayObserverBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            logv("IMDS-Java: DisplayObserver.java: DisplayObserverBroadcastReceiver.onReceive");
             String action = intent.getAction();
             if (action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
                 if (TelephonyManager.EXTRA_STATE == null ||

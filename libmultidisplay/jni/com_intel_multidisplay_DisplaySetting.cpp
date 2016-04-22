@@ -53,6 +53,7 @@ private:
 
 JNIMDSListener::JNIMDSListener(JNIEnv* env, jobject thiz, jobject serviceObj)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: ::JNIMDSListener");
     ALOGI("%s: Creating MDS listener.", __func__);
     jclass clazz = env->FindClass(CLASS_PATH_NAME);
     mOnMdsMessageMethodID = NULL;
@@ -82,6 +83,7 @@ JNIMDSListener::~JNIMDSListener() {
 
 int JNIMDSListener::onMdsMessage(int msg, void* value, int size)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: onMdsMessage");
     ALOGV("Entering %s", __func__);
 
     JNIEnv *env = AndroidRuntime::getJNIEnv();
@@ -111,6 +113,7 @@ int JNIMDSListener::onMdsMessage(int msg, void* value, int size)
 
 static jboolean MDS_InitMDSClient(JNIEnv* env, jobject thiz, jobject serviceObj)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: MDS_InitMDSClient");
     AutoMutex _l(gMutex);
     ALOGI("%s: creating MultiDisplay JNI client.", __func__);
     if (gMDClient) {
@@ -143,6 +146,7 @@ static jboolean MDS_InitMDSClient(JNIEnv* env, jobject thiz, jobject serviceObj)
 
 static jboolean MDS_DeInitMDSClient(JNIEnv* env, jobject obj)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: MDS_DeInitMDSClient");
     AutoMutex _l(gMutex);
     ALOGI("%s: Releasing MultiDisplay JNI client.", __func__);
     if (gListener != NULL && gMDClient != NULL) {
@@ -156,6 +160,7 @@ static jboolean MDS_DeInitMDSClient(JNIEnv* env, jobject obj)
 
 static jint MDS_getMode(JNIEnv* env, jobject obj)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: MDS_getMode");
     if (gMDClient == NULL) return 0;
     AutoMutex _l(gMutex);
     return gMDClient->getDisplayMode(true);
@@ -163,6 +168,7 @@ static jint MDS_getMode(JNIEnv* env, jobject obj)
 
 static jboolean MDS_setModePolicy(JNIEnv* env, jobject obj, jint policy)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: MDS_setModePolicy");
     if (gMDClient == NULL) return false;
     AutoMutex _l(gMutex);
     int ret = gMDClient->setModePolicy(policy);
@@ -171,6 +177,7 @@ static jboolean MDS_setModePolicy(JNIEnv* env, jobject obj, jint policy)
 
 static jboolean MDS_notifyHotPlug(JNIEnv* env, jobject obj)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: MDS_notifyHotPlug");
     if (gMDClient == NULL) return false;
     AutoMutex _l(gMutex);
     int ret = gMDClient->notifyHotPlug();
@@ -179,6 +186,7 @@ static jboolean MDS_notifyHotPlug(JNIEnv* env, jobject obj)
 
 static jboolean MDS_setHdmiPowerOff(JNIEnv* env, jobject obj)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: MDS_setHdmiPowerOff");
     if (gMDClient == NULL) return false;
     AutoMutex _l(gMutex);
     int ret = gMDClient->setHdmiPowerOff();
@@ -194,6 +202,7 @@ static jint MDS_getHdmiTiming(
     jintArray interlace,
     jintArray ratio)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: MDS_getHdmiTiming");
     if (gMDClient == NULL) return 0;
     AutoMutex _l(gMutex);
     int32_t* pWidth = env->GetIntArrayElements(width, NULL);
@@ -219,6 +228,7 @@ static jboolean MDS_setHdmiTiming(
     jint interlace,
     jint ratio)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: MDS_setHdmiTiming");
     if (gMDClient == NULL) return false;
     AutoMutex _l(gMutex);
     int ret = gMDClient->setHdmiModeInfo(width, height, refresh, interlace, ratio);
@@ -227,6 +237,7 @@ static jboolean MDS_setHdmiTiming(
 
 static jint MDS_getHdmiInfoCount(JNIEnv* env, jobject obj)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: MDS_getHdmiInfoCount");
     if (gMDClient == NULL) return 0;
     AutoMutex _l(gMutex);
     return gMDClient->getHdmiModeInfo(NULL,NULL, NULL, NULL, NULL);
@@ -234,6 +245,7 @@ static jint MDS_getHdmiInfoCount(JNIEnv* env, jobject obj)
 
 static jboolean MDS_HdmiScaleType(JNIEnv* env, jobject obj,jint Type)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: MDS_HdmiScaleType");
     if (gMDClient == NULL) return false;
     AutoMutex _l(gMutex);
     int ret = gMDClient->setHdmiScaleType(Type);
@@ -242,6 +254,7 @@ static jboolean MDS_HdmiScaleType(JNIEnv* env, jobject obj,jint Type)
 
 static jboolean MDS_HdmiScaleStep(JNIEnv* env, jobject obj,jint hValue,jint vValue)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: MDS_HdmiScaleStep");
     if (gMDClient == NULL) return false;
     AutoMutex _l(gMutex);
     int ret = gMDClient->setHdmiScaleStep(hValue,vValue);
@@ -250,6 +263,7 @@ static jboolean MDS_HdmiScaleStep(JNIEnv* env, jobject obj,jint hValue,jint vVal
 
 static jint MDS_getHdmiDeviceChange(JNIEnv* env, jobject obj)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: MDS_getHdmiDeviceChange");
     if (gMDClient == NULL) return 0;
     AutoMutex _l(gMutex);
     return gMDClient->getHdmiDeviceChange();
@@ -257,6 +271,7 @@ static jint MDS_getHdmiDeviceChange(JNIEnv* env, jobject obj)
 
 static jint MDS_getDisplayCapability(JNIEnv* env, jobject obj)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: MDS_getDisplayCapability");
     if (gMDClient == NULL) return 0;
     AutoMutex _l(gMutex);
     return gMDClient->getDisplayCapability();
@@ -282,6 +297,7 @@ static JNINativeMethod sMethods[] = {
 
 int register_intel_multidisplay_DisplaySetting(JNIEnv* env)
 {
+    ALOGV("IMDS-JNI: com_intel_multidisplay_DisplaySetting.cpp: register_intel_multidisplay_DisplaySetting");
     ALOGD("Entering %s", __func__);
     jclass clazz = env->FindClass(CLASS_PATH_NAME);
     if (clazz == NULL) {

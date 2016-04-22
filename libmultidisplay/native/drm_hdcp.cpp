@@ -55,6 +55,7 @@ static bool drm_hdcp_enable_hdcp_work();
 
 static bool drm_hdcp_isSupported()
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_hdcp_isSupported");
     int fd = drm_get_dev_fd();
     if (fd <= 0) {
         ALOGE("Invalid DRM file descriptor.");
@@ -71,6 +72,7 @@ static bool drm_hdcp_isSupported()
 
 static bool drm_hdcp_disable_display_ied()
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_hdcp_disable_display_ied");
     int fd, ret;
     fd = drm_get_dev_fd();
     if (fd <= 0) {
@@ -87,6 +89,7 @@ static bool drm_hdcp_disable_display_ied()
 
 static bool drm_hdcp_enable_display_ied()
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_hdcp_enable_display_ied");
     int fd, ret;
     fd = drm_get_dev_fd();
     if (fd <= 0) {
@@ -104,6 +107,7 @@ static bool drm_hdcp_enable_display_ied()
 
 static bool drm_hdcp_enable()
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_hdcp_enable");
     int fd = drm_get_dev_fd();
     if (fd <= 0) {
         ALOGE("Invalid DRM file descriptor.");
@@ -119,6 +123,7 @@ static bool drm_hdcp_enable()
 
 static bool drm_hdcp_disable()
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_hdcp_disable");
     int fd = drm_get_dev_fd();
     if (fd <= 0) {
         ALOGE("Invalid DRM file descriptor.");
@@ -134,6 +139,7 @@ static bool drm_hdcp_disable()
 
 static bool drm_hdcp_isAuthenticated()
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_hdcp_isAuthenticated");
     int fd = drm_get_dev_fd();
     if (fd <= 0) {
         ALOGE("Invalid DRM file descriptor.");
@@ -157,6 +163,7 @@ static bool drm_hdcp_isAuthenticated()
 // check whether there is an active IED session (Inline Decryption and Encryption)
 static bool drm_check_ied_session()
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_check_ied_session");
     struct drm_lnc_video_getparam_arg arg;
     unsigned long temp;
     int ret = 0;
@@ -191,6 +198,7 @@ static bool drm_check_ied_session()
 
 static void drm_hdcp_check_link_status(union sigval sig)
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_hdcp_check_link_status");
     bool b = false;
     b = drm_hdcp_isAuthenticated();
     if (!b) {
@@ -201,6 +209,7 @@ static void drm_hdcp_check_link_status(union sigval sig)
 
 static bool drm_hdcp_start_link_checking()
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_hdcp_start_link_checking");
     int ret;
     struct sigevent sev;
     struct itimerspec its;
@@ -238,6 +247,7 @@ static bool drm_hdcp_start_link_checking()
 
 static void drm_hdcp_stop_link_checking()
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_hdcp_stop_link_checking");
     int ret;
     struct itimerspec its;
 
@@ -262,6 +272,7 @@ static void drm_hdcp_stop_link_checking()
 
 static bool drm_hdcp_enable_and_check()
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_hdcp_enable_and_check");
     ALOGV("Entering %s", __func__);
     bool ret = false;
     int i, j;
@@ -295,6 +306,7 @@ static bool drm_hdcp_enable_and_check()
 
 static bool drm_hdcp_enable_hdcp_work()
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_hdcp_enable_hdcp_work");
     bool ret = true;
     sec_result_t res;
 
@@ -318,6 +330,7 @@ static bool drm_hdcp_enable_hdcp_work()
 
 void drm_hdcp_disable_hdcp(bool connected)
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_hdcp_disable_hdcp");
     ALOGV("Entering %s", __func__);
     drm_hdcp_stop_link_checking();
     if (connected) {
@@ -330,6 +343,7 @@ void drm_hdcp_disable_hdcp(bool connected)
 
 bool drm_hdcp_enable_hdcp()
 {
+    ALOGV("IMDS-Native: drm_hdcp.cpp: drm_hdcp_enable_hdcp");
     ALOGV("Entering %s", __func__);
     bool ret = true;
 

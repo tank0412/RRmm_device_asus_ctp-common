@@ -52,6 +52,7 @@ static drmContext gDrmCxt;
 
 static drmModeConnector* getConnector(int fd, uint32_t connector_type)
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: getConnector");
     ALOGV("Entering %s, %d", __func__, connector_type);
     drmModeRes *resources = drmModeGetResources(fd);
     drmModeConnector *connector = NULL;
@@ -81,6 +82,7 @@ static drmModeConnector* getConnector(int fd, uint32_t connector_type)
 
 static drmModeConnectorPtr getHdmiConnector()
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: getHdmiConnector");
     if (gDrmCxt.hdmiConnector == NULL)
         gDrmCxt.hdmiConnector = getConnector(gDrmCxt.drmFD, DRM_MODE_CONNECTOR_DVID);
     if (gDrmCxt.hdmiConnector == NULL || gDrmCxt.hdmiConnector->modes == NULL) {
@@ -92,6 +94,7 @@ static drmModeConnectorPtr getHdmiConnector()
 
 static inline bool drm_is_preferred_flags(unsigned int flags)
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_is_preferred_flags");
     // prefer 16:9 over 4:3  and progressive over interlaced.
     if ((flags & (1<<14)) && !(flags & DRM_MODE_FLAG_INTERLACE))
         return true;
@@ -99,6 +102,7 @@ static inline bool drm_is_preferred_flags(unsigned int flags)
 }
 static void drm_select_preferredmode(drmModeConnectorPtr connector)
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_select_preferredmode");
     int index_preferred = -1;
     int hdisplay = 0, vdisplay = 0;
     int index_720P = -1, index_1080P = -1, index_max = -1;
@@ -174,6 +178,7 @@ static void drm_select_preferredmode(drmModeConnectorPtr connector)
 
 static void drm_hdmi_setTiming(drmModeConnectorPtr connector, int index, MDSHDMITiming* info)
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_hdmi_setTiming");
     if (index >= connector->count_modes) {
         ALOGE("%s: index is out of range.", __func__);
         memset(info, 0, sizeof(MDSHDMITiming));
@@ -196,6 +201,7 @@ static void drm_hdmi_setTiming(drmModeConnectorPtr connector, int index, MDSHDMI
 
 bool drm_init()
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_init");
     union drm_psb_extension_arg video_getparam_arg;
     const char video_getparam_ext[] = "lnc_video_getparam";
 
@@ -229,6 +235,7 @@ bool drm_init()
 
 void drm_cleanup()
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_cleanup");
     if (gDrmCxt.drmFD > 0)
         drmClose(gDrmCxt.drmFD);
     if (gDrmCxt.hdmiConnector)
@@ -239,16 +246,19 @@ void drm_cleanup()
 
 int drm_get_dev_fd()
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_get_dev_fd");
     return gDrmCxt.drmFD;
 }
 
 int drm_get_ioctl_offset()
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_get_ioctl_offset");
     return gDrmCxt.ioctlOffset;
 }
 
 bool drm_hdmi_isDeviceChanged(bool reset)
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_hdmi_isDeviceChanged");
     bool ret = gDrmCxt.newDevice;
     if (reset)
         gDrmCxt.newDevice = false;
@@ -257,11 +267,13 @@ bool drm_hdmi_isDeviceChanged(bool reset)
 
 bool drm_hdmi_isSupported()
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_hdmi_isSupported");
     return gDrmCxt.hdmiSupported;
 }
 
 bool drm_hdmi_setHdmiVideoOn()
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_hdmi_setHdmiVideoOn");
     if (!gDrmCxt.hdmiSupported)
         return false;
     struct drm_psb_disp_ctrl dp_ctrl;
@@ -278,6 +290,7 @@ bool drm_hdmi_setHdmiVideoOn()
 
 bool drm_hdmi_setHdmiVideoOff()
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_hdmi_setHdmiVideoOff");
     if (!gDrmCxt.hdmiSupported)
         return false;
     struct drm_psb_disp_ctrl dp_ctrl;
@@ -294,6 +307,7 @@ bool drm_hdmi_setHdmiVideoOff()
 
 bool drm_hdmi_setHdmiPowerOff()
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_hdmi_setHdmiPowerOff");
     if (!gDrmCxt.hdmiSupported)
         return false;
     struct drm_psb_disp_ctrl dp_ctrl;
@@ -309,6 +323,7 @@ bool drm_hdmi_setHdmiPowerOff()
 
 bool drm_hdmi_onHdmiDisconnected(void)
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_hdmi_onHdmiDisconnected");
     gDrmCxt.connected = false;
     if (gDrmCxt.hdmiConnector)
         drmModeFreeConnector(gDrmCxt.hdmiConnector);
@@ -319,6 +334,7 @@ bool drm_hdmi_onHdmiDisconnected(void)
 
 bool drm_hdmi_notify_audio_hotplug(bool plugin)
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_hdmi_notify_audio_hotplug");
     struct drm_psb_disp_ctrl dp_ctrl;
     memset(&dp_ctrl, 0, sizeof(dp_ctrl));
     dp_ctrl.cmd = DRM_PSB_HDMI_NOTIFY_HOTPLUG_TO_AUDIO;
@@ -331,6 +347,7 @@ bool drm_hdmi_notify_audio_hotplug(bool plugin)
 // return 0 - not connected, 1 - HDMI connected, 2 - DVI connected
 int drm_hdmi_getConnectionStatus()
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_hdmi_getConnectionStatus");
     if (!gDrmCxt.hdmiSupported)
         return 0;
 
@@ -413,6 +430,7 @@ int drm_hdmi_getModeInfo(
     int *pInterlace,
     int *pRatio)
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_hdmi_getModeInfo");
     if (!gDrmCxt.hdmiSupported || !gDrmCxt.connected) {
         ALOGE("%s: HDMI is not supported or not connected.", __func__);
         return 0;
@@ -494,6 +512,7 @@ int drm_hdmi_getModeInfo(
 
 bool drm_hdmi_setModeInfo(int width, int height, int refresh, int interlace, int ratio)
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_hdmi_setModeInfo");
     if (!gDrmCxt.hdmiSupported || !gDrmCxt.connected) {
         ALOGE("%s: HDMI is not supported or not connected.", __func__);
         return false;
@@ -513,6 +532,7 @@ bool drm_hdmi_setModeInfo(int width, int height, int refresh, int interlace, int
 
 bool drm_hdmi_getTiming(int mode, MDSHDMITiming* info)
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_hdmi_getTiming");
     if (info == NULL)
         return false;
 
@@ -611,6 +631,7 @@ bool drm_hdmi_getTiming(int mode, MDSHDMITiming* info)
 
 bool drm_mipi_setMode(int mode)
 {
+    ALOGV("IMDS-Native: drm_hdmi.cpp: drm_mipi_setMode");
     drmModeConnector *connector = getConnector(gDrmCxt.drmFD, DRM_MODE_CONNECTOR_VIRTUAL);
     if (connector == NULL)
         return false;
