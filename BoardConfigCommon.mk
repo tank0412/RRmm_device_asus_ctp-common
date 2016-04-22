@@ -57,6 +57,9 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/asus/ctp-common/bluetooth
 BOARD_SKIP_ANDROID_DOC_BUILD := true
 BUILD_EMULATOR := false
 
+# SELinux
+BOARD_SEPOLICY_DIRS += device/asus/ctp-common/sepolicy
+
 # Charger
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_SHOW_PERCENTAGE := true
