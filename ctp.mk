@@ -251,5 +251,5 @@ PRODUCT_PACKAGES += \
  #PRODUCT_PACKAGES += \
    thermald
 
-$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4339/device-bcm.mk)
+#$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4339/device-bcm.mk)
 $(call inherit-product-if-exists, vendor/asus/ctp-common/ctp-common-vendor.mk)
