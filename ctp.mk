@@ -231,7 +231,7 @@ PRODUCT_PACKAGES += \
 	libstlport
 
 # Features removed from "user" builds
-#PRODUCT_PACKAGES += \
+PRODUCT_PACKAGES += \
 	su \
 	screencap \
 	procmem \
