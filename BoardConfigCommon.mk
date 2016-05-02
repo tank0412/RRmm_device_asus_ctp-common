@@ -164,3 +164,6 @@ WIFI_DRIVER_MODULE_ARG      := "iface_name=wlan0 firmware_path=/system/etc/firmw
 
 # Use the non-open-source parts, if they're present
 -include vendor/asus/ctp-common/BoardConfigVendor.mk
+
+#OTA
+TARGET_OTA_ASSERT_DEVICE := T00F
