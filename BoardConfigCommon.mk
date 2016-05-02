@@ -167,3 +167,8 @@ WIFI_DRIVER_MODULE_ARG      := "iface_name=wlan0 firmware_path=/system/etc/firmw
 
 #OTA
 TARGET_OTA_ASSERT_DEVICE := T00F
+
+# GPS
+BOARD_HAS_GPS_HARDWARE := true
+GPS_CHIP_VENDOR := bcm
+GPS_CHIP := 2076
