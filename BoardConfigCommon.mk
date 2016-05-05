@@ -14,8 +14,6 @@
 # limitations under the License.
 #
 
-VENDOR_PATH := device/asus/ctp-common
-
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RECOVERY := false
 HAS_PREBUILT_KERNEL  := true
@@ -54,14 +52,14 @@ TARGET_USES_64_BIT_BINDER := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(VENDOR_PATH)/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/asus/ctp-common/bluetooth
 
 # Skip some proccess to speed up build
 BOARD_SKIP_ANDROID_DOC_BUILD := true
 BUILD_EMULATOR := false
 
 # SELinux
-BOARD_SEPOLICY_DIRS += $(VENDOR_PATH)/sepolicy
+BOARD_SEPOLICY_DIRS += device/asus/ctp-common/sepolicy
 
 # Charger
 BOARD_CHARGER_ENABLE_SUSPEND := true
@@ -72,7 +70,7 @@ WITH_DEXPREOPT := true
 
 # Hardware
 BOARD_HARDWARE_CLASS := \
-	$(VENDOR_PATH)/cmhw \
+	device/asus/ctp-common/cmhw \
 	hardware/cyanogen/cmhw
 
 # Healthd
@@ -90,7 +88,7 @@ HWUI_IMG_FBO_CACHE_OPTIM := true
 VSYNC_EVENT_PHASE_OFFSET_NS := 7500000
 SF_VSYNC_EVENT_PHASE_OFFSET_NS := 5000000
 
-BOARD_EGL_CFG := $(VENDOR_PATH)/configs/egl.cfg
+BOARD_EGL_CFG := device/asus/ctp-common/configs/egl.cfg
 
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.opengles.version = 131072
