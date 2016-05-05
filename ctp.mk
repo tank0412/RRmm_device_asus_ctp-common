@@ -18,7 +18,7 @@ $(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-dalv
 $(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-	LOCAL_KERNEL := device/asus/ctp-common/BZIMAGE
+	LOCAL_KERNEL := $(VENDOR_PATH)/BZIMAGE
 else
 	LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
@@ -30,7 +30,7 @@ TARGET_RECOVERY_PREBUILT_KERNEL := $(LOCAL_KERNEL)
 
 
 DEVICE_PACKAGE_OVERLAYS := \
-	device/asus/ctp-common/overlay
+	$(VENDOR_PATH)/overlay
 
 # ART
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -54,13 +54,13 @@ PRODUCT_PACKAGES += \
 	libaudiopolicymanager
 
 PRODUCT_COPY_FILES += \
-	device/asus/ctp-common/audio/asound.conf:system/etc/asound.conf \
-	device/asus/ctp-common/audio/audio_policy.conf:system/etc/audio_policy.conf \
-	device/asus/ctp-common/audio/route_criteria.conf:system/etc/route_criteria.conf
+	$(VENDOR_PATH)/audio/asound.conf:system/etc/asound.conf \
+	$(VENDOR_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
+	$(VENDOR_PATH)/audio/route_criteria.conf:system/etc/route_criteria.conf
 
 # Bluetooth
 PRODUCT_COPY_FILES += \
-	device/asus/ctp-common/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
+	$(VENDOR_PATH)/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
 
 # Camera
 PRODUCT_PACKAGES += \
@@ -78,7 +78,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	dalvik.vm.implicit_checks=none
 
 PRODUCT_COPY_FILES += \
-	device/asus/ctp-common/powervr.ini:system/etc/powervr.ini
+	$(VENDOR_PATH)/powervr.ini:system/etc/powervr.ini
 
 # Houdini (arm native bridge)
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -113,9 +113,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	media.aac_51_output_enabled=true
 
 PRODUCT_COPY_FILES += \
-	device/asus/ctp-common/media/media_codecs.xml:system/etc/media_codecs.xml \
-	device/asus/ctp-common/media/media_profiles.xml:system/etc/media_profiles.xml \
-	device/asus/ctp-common/media/wrs_omxil_components.list:system/etc/wrs_omxil_components.list \
+	$(VENDOR_PATH)/media/media_codecs.xml:system/etc/media_codecs.xml \
+	$(VENDOR_PATH)/media/media_profiles.xml:system/etc/media_profiles.xml \
+	$(VENDOR_PATH)/media/wrs_omxil_components.list:system/etc/wrs_omxil_components.list \
 	frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
 	frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
 
@@ -143,7 +143,7 @@ PRODUCT_PACKAGES += \
 	libreference-ril
 
 PRODUCT_COPY_FILES += \
-	device/asus/ctp-common/configs/sensor_hal_config_default.xml:system/etc/sensor_hal_config_default.xml
+	$(VENDOR_PATH)/configs/sensor_hal_config_default.xml:system/etc/sensor_hal_config_default.xml
 
 # DRM Library
 PRODUCT_PACKAGES += \
@@ -236,7 +236,7 @@ PRODUCT_PACKAGES += \
 	libstagefrighthw
 
 PRODUCT_COPY_FILES += \
-	device/asus/ctp-common/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
+	$(VENDOR_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
 
 # stlport required for our LP blobs
 PRODUCT_PACKAGES += \
@@ -265,11 +265,11 @@ PRODUCT_PACKAGES += \
 
 #twrp
 PRODUCT_COPY_FILES += \
-  device/asus/ctp-common/twrp.fstab:recovery/root/etc/twrp.fstab
+  $(VENDOR_PATH)/twrp.fstab:recovery/root/etc/twrp.fstab
 
 #Ramdisk
 PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,device/asus/ctp-common/ramdisk,root)
+    $(call find-copy-subdir-files,*,$(VENDOR_PATH)/ramdisk,root)
 
 #$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4339/device-bcm.mk)
 $(call inherit-product-if-exists, vendor/asus/ctp-common/ctp-common-vendor.mk)
