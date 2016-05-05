@@ -1,0 +1,24 @@
+#
+# ADDITIONAL_DEFAULT_PROPERTIES
+#
+ro.build.asus.sku=WW
+ro.dalvik.vm.native.bridge=libhoudini.so
+ro.adb.secure=1
+ro.opengles.version=131072
+ro.secure=1
+ro.allow.mock.location=0
+ro.debuggable=1
+ro.zygote=zygote32
+dalvik.vm.image-dex2oat-Xms=64m
+dalvik.vm.image-dex2oat-Xmx=64m
+dalvik.vm.dex2oat-Xms=64m
+dalvik.vm.dex2oat-Xmx=512m
+ro.build.selinux=0
+gsm.net.interface=rmnet0
+#
+# BOOTIMAGE_BUILD_PROPERTIES
+#
+ro.bootimage.build.date=Ter Abr 19 03:48:33 BRT 2016
+ro.bootimage.build.date.utc=1461048513
+ro.bootimage.build.fingerprint=ASUS/cm_T00F/T00F:6.0.1/MHC19Q/0eae9d452f:user/test-keys
+persist.sys.usb.config=none
