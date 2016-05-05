@@ -30,7 +30,7 @@ TARGET_BOARD_PLATFORM := clovertrail
 TARGET_BOOTLOADER_BOARD_NAME := clovertrail
 TARGET_USERIMAGES_USE_EXT4 := true
 
-TARGET_PREBUILT_KERNEL := $(VENDOR_PATH)/BZIMAGE
+TARGET_PREBUILT_KERNEL := device/asus/ctp-common/BZIMAGE
 
 # ADB
 BOARD_FUNCTIONFS_HAS_SS_COUNT := true
@@ -182,11 +182,11 @@ TARGET_OTA_ASSERT_DEVICE := a500cg,a501cg,aicp_a500cg,aicp_a501cg,ASUS_T00F,ASUS
 USE_OSIP := true
 REF_PRODUCT_NAME := redhookbay
 
-TARGET_RECOVERY_FSTAB := $(VENDOR_PATH)/recovery.fstab
+TARGET_RECOVERY_FSTAB := device/asus/ctp-common/recovery.fstab
 
 #TWRP
 # Recovery global
-#TARGET_RECOVERY_INITRC := $(VENDOR_PATH)/ramdisk/recovery.init.redhookbay.rc
+#TARGET_RECOVERY_INITRC := device/asus/ctp-common/ramdisk/recovery.init.redhookbay.rc
 BOARD_RECOVERY_SWIPE := true
 BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 #TARGET_RECOVERY_PREBUILT_KERNEL := $(PRODUCT_OUT)/kernel
