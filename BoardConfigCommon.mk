@@ -212,5 +212,6 @@ BOARD_SUPPRESS_EMMC_WIPE := true
 
 # OTA Packaging / Bootimg creation
 BOARD_CUSTOM_BOOTIMG := true
-BOARD_CUSTOM_BOOTIMG_MK := $(VENDOR_PATH)/mkbootimg.mk
+BOARD_CUSTOM_BOOTIMG_MK := device/asus/ctp-common/mkbootimg.mk
+DEVICE_BASE_BOOT_IMAGE := device/asus/ctp-common/blobs/boot.img
 NEED_KERNEL_MODULE_ROOT := true
