@@ -263,6 +263,10 @@ PRODUCT_PACKAGES += \
  #PRODUCT_PACKAGES += \
    thermald
 
+#twrp
+PRODUCT_COPY_FILES += \
+  device/asus/ctp-common/twrp.fstab:recovery/root/etc/twrp.fstab
+
 #Ramdisk
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,device/asus/ctp-common/ramdisk,root)
