@@ -96,11 +96,6 @@ PRODUCT_PACKAGES += \
 	com.intel.widi.sink \
 	com.intel.widi.sink.xml
 
-# MmgrClient, OemTelephonyApp and SARManager
-PRODUCT_PACKAGES += \
-	com.intel.internal.telephony.MmgrClient.xml \
-	com.intel.internal.telephony.MmgrClient
-
 # Keystore
 PRODUCT_PACKAGES += \
 	keystore.clovertrail
