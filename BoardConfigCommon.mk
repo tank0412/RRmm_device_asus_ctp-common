@@ -179,22 +179,8 @@ GPS_CHIP := 2076
 #
 #ReleaseTools
 #
-
-BLOCK_BASED_OTA := false
-#BOARD_CUSTOM_MAKE_RECOVERY_PATCH := vendor/intel/hardware/libintelprov/make_recovery_patch
-TARGET_RELEASETOOLS_EXTENSIONS := $(VENDOR_PATH)/releasetools
-TARGET_RELEASETOOL_MAKE_RECOVERY_PATCH_SCRIPT := $(TARGET_RELEASETOOLS_EXTENSIONS)/make_recovery_patch
-BOARD_CUSTOM_MAKE_RECOVERY_PATCH := $(TARGET_RELEASETOOLS_EXTENSIONS)/make_recovery_patch
-#TARGET_RELEASETOOLS_EXTENSIONS := vendor/intel/hardware/libintelprov
-TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := $(TARGET_RELEASETOOLS_EXTENSIONS)/ota_from_target_files
 TARGET_RECOVERY_UPDATER_LIBS += libintel_updater
 TARGET_OTA_ASSERT_DEVICE := a500cg,a501cg,aicp_a500cg,aicp_a501cg,ASUS_T00F,ASUS_T00J,a600cg,aicp_a600cg,ASUS_T00G
-
-TARGET_RECOVERY_UPDATER_EXTRA_LIBS += \
-#    libcgpt_static \
-    liboempartitioning_static \
-#RECOVERY_VARIANT := twrp
-#TARGET_PROVIDES_INIT_RC := true
 USE_OSIP := true
 REF_PRODUCT_NAME := redhookbay
 
@@ -220,7 +206,7 @@ TW_INTERNAL_STORAGE_PATH := "/data/media/0"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "/emmc"
 TW_EXTERNAL_STORAGE_PATH := "/external_sd"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "/external_sd"
-TW_DEFAULT_EXTERNAL_STORAGE := true
+TW_DEFAULT_EXTERNAL_STORAGE := tru$(VENDOR_PATH)e
 TW_EXCLUDE_SUPERSU := false
 BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 BOARD_SUPPRESS_EMMC_WIPE := true
@@ -228,5 +214,5 @@ BOARD_SUPPRESS_EMMC_WIPE := true
 
 # OTA Packaging / Bootimg creation
 BOARD_CUSTOM_BOOTIMG := true
-BOARD_CUSTOM_BOOTIMG_MK := device/asus/ctp-common/mkbootimg.mk
+BOARD_CUSTOM_BOOTIMG_MK := $(VENDOR_PATH)/mkbootimg.mk
 NEED_KERNEL_MODULE_ROOT := true
