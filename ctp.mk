@@ -264,7 +264,7 @@ PRODUCT_COPY_FILES += \
 
 #Ramdisk
 PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,$(VENDOR_PATH)/ramdisk,root)
+    $(call find-copy-subdir-files,*,device/asus/ctp-common/ramdisk,root)
 
 
 # OTA Packaging / Bootimg creation
