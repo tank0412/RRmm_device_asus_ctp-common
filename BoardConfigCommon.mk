@@ -32,7 +32,7 @@ TARGET_BOARD_PLATFORM := clovertrail
 TARGET_BOOTLOADER_BOARD_NAME := clovertrail
 TARGET_USERIMAGES_USE_EXT4 := true
 
-TARGET_PREBUILT_KERNEL := device/asus/ctp-common/BZIMAGE
+TARGET_PREBUILT_KERNEL := $(VENDOR_PATH)/BZIMAGE
 
 # ADB
 BOARD_FUNCTIONFS_HAS_SS_COUNT := true
@@ -182,7 +182,7 @@ GPS_CHIP := 2076
 
 BLOCK_BASED_OTA := false
 #BOARD_CUSTOM_MAKE_RECOVERY_PATCH := vendor/intel/hardware/libintelprov/make_recovery_patch
-TARGET_RELEASETOOLS_EXTENSIONS := device/asus/ctp-common/releasetools
+TARGET_RELEASETOOLS_EXTENSIONS := $(VENDOR_PATH)/releasetools
 TARGET_RELEASETOOL_MAKE_RECOVERY_PATCH_SCRIPT := $(TARGET_RELEASETOOLS_EXTENSIONS)/make_recovery_patch
 BOARD_CUSTOM_MAKE_RECOVERY_PATCH := $(TARGET_RELEASETOOLS_EXTENSIONS)/make_recovery_patch
 #TARGET_RELEASETOOLS_EXTENSIONS := vendor/intel/hardware/libintelprov
@@ -198,11 +198,11 @@ TARGET_RECOVERY_UPDATER_EXTRA_LIBS += \
 USE_OSIP := true
 REF_PRODUCT_NAME := redhookbay
 
-TARGET_RECOVERY_FSTAB := device/asus/ctp-common/recovery.fstab
+TARGET_RECOVERY_FSTAB := $(VENDOR_PATH)/recovery.fstab
 
 #TWRP
 # Recovery global
-#TARGET_RECOVERY_INITRC := device/asus/ctp-common/ramdisk/recovery.init.redhookbay.rc
+#TARGET_RECOVERY_INITRC := $(VENDOR_PATH)/ramdisk/recovery.init.redhookbay.rc
 BOARD_RECOVERY_SWIPE := true
 BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 #TARGET_RECOVERY_PREBUILT_KERNEL := $(PRODUCT_OUT)/kernel
