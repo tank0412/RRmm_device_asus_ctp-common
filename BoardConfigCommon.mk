@@ -17,7 +17,7 @@
 VENDOR_PATH := device/asus/ctp-common
 
 TARGET_NO_BOOTLOADER := true
-TARGET_NO_RECOVERY   := true
+TARGET_NO_RECOVERY := false
 HAS_PREBUILT_KERNEL  := true
 TARGET_PROVIDES_INIT_RC := false
 
@@ -175,3 +175,31 @@ TARGET_OTA_ASSERT_DEVICE := T00F
 BOARD_HAS_GPS_HARDWARE := true
 GPS_CHIP_VENDOR := bcm
 GPS_CHIP := 2076
+
+TARGET_RECOVERY_FSTAB := device/asus/ctp-common/recovery.fstab
+
+#TWRP
+# Recovery global
+#TARGET_RECOVERY_INITRC := device/asus/ctp-common/ramdisk/recovery.init.redhookbay.rc
+BOARD_RECOVERY_SWIPE := true
+BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
+#TARGET_RECOVERY_PREBUILT_KERNEL := $(PRODUCT_OUT)/kernel
+# Recovery options TWRP
+DEVICE_RESOLUTION := 720x1280
+TW_INCLUDE_CRYPTO := true
+TW_INCLUDE_L_CRYPTO := true
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
+TARGET_RECOVERY_SCREEN_WIDTH := 720
+TARGET_RECOVERY_SCREEN_HEIGHT := 1280
+BOARD_HAS_NO_SELECT_BUTTON := true
+RECOVERY_SDCARD_ON_DATA := true
+TW_INTERNAL_STORAGE_PATH := "/data/media/0"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "/emmc"
+TW_EXTERNAL_STORAGE_PATH := "/external_sd"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "/external_sd"
+TW_DEFAULT_EXTERNAL_STORAGE := true
+TW_EXCLUDE_SUPERSU := false
+BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
+BOARD_SUPPRESS_EMMC_WIPE := true
+
