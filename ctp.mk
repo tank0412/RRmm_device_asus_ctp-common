@@ -258,6 +258,7 @@ PRODUCT_PACKAGES += \
  #PRODUCT_PACKAGES += \
    thermald
 
+<<<<<<< HEAD
 #twrp
 PRODUCT_COPY_FILES += \
   device/asus/ctp-common/twrp.fstab:recovery/root/etc/twrp.fstab
@@ -319,5 +320,5 @@ PRODUCT_PACKAGES += \
   libaudiohw_intel \
   libaudiohw_intel_host
 
-#$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4339/device-bcm.mk)
+$(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4339/device-bcm.mk)
 $(call inherit-product-if-exists, vendor/asus/ctp-common/ctp-common-vendor.mk)
