@@ -1,0 +1,3 @@
+#============= surfaceflinger ==============
+allow surfaceflinger display_service:service_manager add;
+allow surfaceflinger display_service:service_manager find;

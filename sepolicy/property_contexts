@@ -18,6 +18,7 @@ service.amtl2.cfg                       u:object_r:radio_prop:s0
 swconf.info                             u:object_r:asus_prop:s0
 sys.chaabi.version                      u:object_r:asus_prop:s0
 sys.ia32.version                        u:object_r:asus_prop:s0
+sys.supp_ia32.version                   u:object_r:asus_prop:s0
 sys.ifwi.version                        u:object_r:asus_prop:s0
 sys.kernel.version                      u:object_r:asus_prop:s0
 sys.mia.version                         u:object_r:asus_prop:s0

@@ -1,0 +1,4 @@
+hwc.info                                  u:object_r:surfaceflinger_service:s0
+hwc.widi                                  u:object_r:surfaceflinger_service:s0
+hwc                                  u:object_r:surfaceflinger_service:s0
+display.intel.mds                         u:object_r:display_service:s0

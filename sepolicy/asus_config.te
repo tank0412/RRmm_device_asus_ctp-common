@@ -7,6 +7,11 @@ set_prop(asus_config, audio_prop)
 set_prop(asus_config, asus_prop)
 set_prop(asus_config, config_prop)
 set_prop(asus_config, radio_prop)
+set_prop(asus_config, net_radio_prop)
+set_prop(asus_config, system_radio_prop)
+set_prop(asus_config, ctl_default_prop)
+auditallow asus_config net_radio_prop:property_service set;
+auditallow asus_config system_radio_prop:property_service set;
 
 allow asus_config asus_config_file:dir search;
 allow asus_config asus_config_file:file rw_file_perms;
@@ -43,3 +48,10 @@ allow asus_config self:capability { fowner fsetid chown dac_override };
 
 # writes to /sys/class/android_usb/android0/iSerial which we don't need
 # and therefore have a failure to write sysfs:fs
+
+## Bat gauge
+## path="/system/bin/upi_ug31xx"
+allow asus_config system_file:file x_file_perms;
+allow asus_config asus_config_device:chr_file rw_file_perms;
+allow asus_config log_device:chr_file rw_file_perms;
+allow asus_config unlabeled:file rw_file_perms;

@@ -1,4 +1,3 @@
-
 # Asus config scripts / files
 /system/bin/bcu_cpufreqrel              u:object_r:asus_config_exec:s0
 /system/bin/init\.class_main\.sh          u:object_r:asus_config_exec:s0

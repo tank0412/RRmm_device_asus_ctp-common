@@ -28,7 +28,7 @@ allow gpsd gpsd:tcp_socket { create connect };
 allow gpsd fwmarkd_socket:sock_file write;
 allow gpsd dnsproxyd_socket:sock_file write;
 allow gpsd netd:unix_stream_socket connectto;
-
+allow gpsd init:unix_stream_socket { rw_socket_perms listen accept };
 binder_use(gpsd)
 binder_call(gpsd, system_server)
 set_prop(gpsd, gps_prop);
