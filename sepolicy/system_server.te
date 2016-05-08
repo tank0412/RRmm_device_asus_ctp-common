@@ -33,8 +33,8 @@ allow system_server gps_data_file:sock_file create_file_perms;
 allow system_server gps_data_file:dir rw_dir_perms;
 allow system_server gps_data_file:file rw_file_perms;
 
-allow system_server sensors_data_file:dir r_dir_perms;
-allow system_server sensors_data_file:file rw_file_perms;
-allow system_server sensors_data_file:fifo_file rw_file_perms;
+#allow system_server sensors_data_file:dir r_dir_perms;
+#allow system_server sensors_data_file:file rw_file_perms;
+#allow system_server sensors_data_file:fifo_file rw_file_perms;
 
 allow system_server sensors_device:chr_file r_file_perms;
