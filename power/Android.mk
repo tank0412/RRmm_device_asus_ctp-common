@@ -24,7 +24,7 @@ ifeq ($(TARGET_POWERHAL_VARIANT),clovertrail)
     LOCAL_CFLAGS += -Werror
     LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
     LOCAL_SHARED_LIBRARIES := liblog libcutils libutils
-    LOCAL_SRC_FILES := power.cpp
+    LOCAL_SRC_FILES := power.c
     LOCAL_MODULE := power.clovertrail
 
     ifneq ($(TARGET_TAP_TO_WAKE_NODE),)
