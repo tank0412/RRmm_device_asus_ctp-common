@@ -33,6 +33,13 @@
 #define BOOST_FREQ_SYSFS     "/sys/devices/system/cpu/cpufreq/interactive/hispeed_freq"
 #define BOOST_DURATION_SYSFS "/sys/devices/system/cpu/cpufreq/interactive/boostpulse_duration"
 
+struct local_power_module {
+    struct power_module base;
+};
+
+#define BUF_SIZE 80
+
+
 struct intel_power_module {
     struct power_module container;
     uint32_t pulse_duration;
@@ -170,6 +177,17 @@ static struct hw_module_methods_t power_module_methods = {
     .open = NULL,
 };
 
+void set_feature(struct power_module *module __unused, feature_t feature, int state)
+{
+    char tmp_str[BUF_SIZE];
+#ifdef TAP_TO_WAKE_NODE
+    if (feature == POWER_FEATURE_DOUBLE_TAP_TO_WAKE) {
+        snprintf(tmp_str, BUF_SIZE, "%d", state);
+        sysfs_write(TAP_TO_WAKE_NODE, tmp_str);
+    }
+#endif
+}
+
 struct intel_power_module HAL_MODULE_INFO_SYM = {
     container:{
         common: {
@@ -184,5 +202,7 @@ struct intel_power_module HAL_MODULE_INFO_SYM = {
         init: fugu_power_init,
         setInteractive: fugu_power_set_interactive,
         powerHint: fugu_power_hint,
+        setFeature: set_feature,
+        getFeature: 0,
     },
 };
