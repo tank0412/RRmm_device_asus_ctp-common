@@ -19,4 +19,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Show enabled lte option for lte device -->
     <bool name="config_enabled_lte" translatable="false">false</bool>
+<!-- Enable the onscreen "Dial" button in the emergency dialer. -->
+    <bool name="config_show_onscreen_dial_button">true</bool>
 </resources>
