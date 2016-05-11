@@ -244,9 +244,6 @@ PRODUCT_PACKAGES += \
 	procmem \
 	procrank
 
-#CM ACT
-PRODUCT_PACKAGES += \
-    CMActions 
 
 
 #ituxd for intel thermal management
