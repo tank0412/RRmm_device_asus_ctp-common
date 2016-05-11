@@ -62,6 +62,9 @@ BUILD_EMULATOR := false
 # SELinux
 BOARD_SEPOLICY_DIRS += device/asus/ctp-common/sepolicy
 
+#Touchcreen
+BOARD_TOUCHSCREEN_DRIVER := synaptics_dsx
+
 # Charger
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_SHOW_PERCENTAGE := true
