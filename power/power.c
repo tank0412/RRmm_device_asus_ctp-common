@@ -46,29 +46,25 @@ struct intel_power_module {
     struct timespec last_boost_time; /* latest POWER_HINT_INTERACTION boost */
 };
 
-static ssize_t sysfs_write(char *path, char *s)
-{
-    char buf[80];
-    ssize_t len;
+static void sysfs_write(const char *path, const char *const s) {
+    char buf[BUF_SIZE];
+    int len;
     int fd = open(path, O_WRONLY);
 
     if (fd < 0) {
         strerror_r(errno, buf, sizeof(buf));
         ALOGE("Error opening %s: %s\n", path, buf);
-        return -1;
+        return;
     }
 
-    if ((len = write(fd, s, strlen(s))) < 0) {
+    len = write(fd, s, strlen(s));
+    if (len < 0) {
         strerror_r(errno, buf, sizeof(buf));
         ALOGE("Error writing to %s: %s\n", path, buf);
     }
 
     close(fd);
-    ALOGV("wrote '%s' to %s", s, path);
-
-    return len;
 }
-
 static ssize_t sysfs_read(char *path, char *s, int num_bytes)
 {
     char buf[80];
