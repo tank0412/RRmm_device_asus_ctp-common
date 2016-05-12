@@ -216,7 +216,9 @@ BOARD_CUSTOM_BOOTIMG_MK := device/asus/ctp-common/mkbootimg.mk
 DEVICE_BASE_BOOT_IMAGE := device/asus/ctp-common/blobs/boot.img
 DEVICE_BASE_RECOVERY_IMAGE := device/asus/ctp-common/blobs/recovery.img
 NEED_KERNEL_MODULE_ROOT := true
-
+BOARD_KERNEL_CMDLINE := init=/init pci=noearly earlyprintk=nologger loglevel=0 kmemleak=off androidboot.bootmedia=sdcard androidboot.hardware=redhookbay
+BOARD_KERNEL_CMDLINE += watchdog.watchdog_thresh=60 androidboot.spid=xxxx:xxxx:xxxx:xxxx:xxxx:xxxx androidboot.serialno=01234567890123456789
+BOARD_KERNEL_CMDLINE += ip=50.0.0.2:50.0.0.1::255.255.255.0::usb0:on vmalloc=172M slub_max_order=2
 #ALAC CODEC
 USE_FEATURE_ALAC := true
 
