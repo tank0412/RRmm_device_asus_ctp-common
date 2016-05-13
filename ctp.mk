@@ -237,10 +237,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	libstlport
 
-# Sensors
-PRODUCT_PACKAGES += \
-    sensors.redhookbay
-
 # Features removed from "user" builds
 PRODUCT_PACKAGES += \
 	su \
