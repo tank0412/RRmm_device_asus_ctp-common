@@ -100,6 +100,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	keystore.clovertrail
 
+# Lights
+PRODUCT_PACKAGES += \
+    lights.clovertrail
+
 # Media
 PRODUCT_PROPERTY_OVERRIDES += \
 	drm.service.enabled=true \
