@@ -41,9 +41,8 @@ BOARD_HAVE_NFC := false
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
-BUILD_WITH_ALSA_UTILS := true
 BOARD_USES_TINY_ALSA_AUDIO := true
-BOARD_USES_AUDIO_HAL_CONFIGURABLE := true
+TARGET_TINY_ALSA_IGNORE_SILENCE_SIZE := true
 
 # ALAC CODEC
 USE_FEATURE_ALAC := true
@@ -84,14 +83,17 @@ BOARD_HAL_STATIC_LIBRARIES := libhealthd.clovertrail
 BUILD_ARM_FOR_X86 := true
 
 # IMG graphics
-ENABLE_IMG_GRAPHICS := true
 COMMON_GLOBAL_CFLAGS += -DASUS_ZENFONE2_LP_BLOBS
+ENABLE_IMG_GRAPHICS := true
 HWUI_IMG_FBO_CACHE_OPTIM := true
+TARGET_INTEL_HWCOMPOSER_FORCE_ONLY_ONE_RGB_LAYER := true
 
 # IMG Graphics: System's VSYNC phase offsets in nanoseconds
 VSYNC_EVENT_PHASE_OFFSET_NS := 7500000
 SF_VSYNC_EVENT_PHASE_OFFSET_NS := 5000000
 
+# Opengles
+COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH -DWORKAROUND_BUG_10194508
 BOARD_EGL_CFG := device/asus/ctp-common/configs/egl.cfg
 
 ADDITIONAL_DEFAULT_PROPERTIES += \
@@ -132,10 +134,10 @@ TARGET_TAP_TO_WAKE_NODE := "/sys/devices/pci0000:00/0000:00:00.3/i2c-0/0-0020/in
 BUILD_WITH_FULL_STAGEFRIGHT := true
 ENABLE_IMG_GRAPHICS := true
 
-# OpenMAX Interaction Layer Implementation for Intel VA API
-BOARD_USES_MRST_OMX := true
+# Media
+TARGET_NUPLAYER_CANNOT_SET_SURFACE_WITHOUT_A_FLUSH := true
 BOARD_USES_WRS_OMXIL_CORE := true
-TARGET_HAS_ISV := false
+BOARD_USES_MRST_OMX := true
 
 # Video Acceleration API for Video Encoding and Decoding
 INTEL_VA := true
@@ -168,9 +170,6 @@ WIFI_DRIVER_MODULE_ARG      := "iface_name=wlan0 firmware_path=/system/etc/firmw
 
 # Use the non-open-source parts, if they're present
 -include vendor/asus/ctp-common/BoardConfigVendor.mk
-
-#OTA
-TARGET_OTA_ASSERT_DEVICE := T00F
 
 # GPS
 BOARD_HAS_GPS_HARDWARE := true
