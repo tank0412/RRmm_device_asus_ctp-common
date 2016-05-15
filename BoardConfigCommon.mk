@@ -226,3 +226,6 @@ USE_FEATURE_ALAC := true
 
 #CPU-sets
 ENABLE_CPUSETS := true
+
+# Turn on genarate changelog om repo
+MAKE_CHANGELOG := true
