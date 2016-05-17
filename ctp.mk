@@ -249,12 +249,12 @@ PRODUCT_PACKAGES += \
 	procrank
 	
 #ituxd for intel thermal management
-ENABLE_ITUXD := true
-PRODUCT_PACKAGES += \
+#ENABLE_ITUXD := true
+#PRODUCT_PACKAGES += \
   ituxd
 
 # sbin/thermald
-PRODUCT_PACKAGES += \
+#PRODUCT_PACKAGES += \
   thermald
 
 
