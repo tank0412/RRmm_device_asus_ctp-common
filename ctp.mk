@@ -157,11 +157,7 @@ PRODUCT_PACKAGES += \
 
 # MultiDisplay
 PRODUCT_PACKAGES += \
-	com.intel.multidisplay \
-	com.intel.multidisplay.xml \
-	libmultidisplay \
-	libmultidisplayjni \
-	libmultidisplayvideoclient
+	libmultidisplay
 
 # Permissions
 PRODUCT_COPY_FILES += \
