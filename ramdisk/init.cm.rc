@@ -176,3 +176,4 @@ on property:sys.io.scheduler=cfq
 # Set slice_idle to 0 for BFQ
 on property:sys.io.scheduler=bfq
     write /sys/block/mmcblk0/queue/iosched/slice_idle 0
+

@@ -5,11 +5,19 @@ import init.avc.rc
 import init.wireless.rc
 import init.modem.rc
 import init.config_init.rc
+import init.dgadelha.rc
 import init.wifi.rc
 import init.usb.rc
+import init.platform.usb.rc
 import init.bt.rc
 import init.compass.rc
 import init.gps.rc
+
+on load_all_props_action
+    load_all_props
+
+on load_persist_props_action
+    trigger load_all_props_action
 
 on early-init
     # Set boot_min_cap for boot to android
@@ -45,15 +53,12 @@ on init
 
     write /proc/sys/kernel/hung_task_timeout_secs 0
 
-    chmod 0644 /system/framework/core.jar
-    chmod 0644 /system/framework/framework.jar
-    chmod 0644 /system/framework/apache-xml.jar
-    chmod 0644 /system/framework/ext.jar
-
     mkdir /factory
     mkdir /config
 
 on boot
+    export LD_PRELOAD "/system/lib/libmmcompat.so libsigchain.so"
+
     # 4.3 needs this
     chmod 0644 /proc/cmdline
 
@@ -99,10 +104,10 @@ on boot
     setprop audio.media_rc.flinger.dump disable
 
     # Set autosuspend delay as 30 ms to save power in graphic display
-    # write /sys/devices/pci0000:00/0000:00:03.4/power/autosuspend_delay_ms 30
+    write /sys/devices/pci0000:00/0000:00:03.4/power/autosuspend_delay_ms 30
 
     # Set autosuspend delay to 200 ms to make sure camera AF and sensor setting are applied fast enough
-    # write /sys/devices/pci0000:00/0000:00:03.3/power/autosuspend_delay_ms 200
+    write /sys/devices/pci0000:00/0000:00:03.3/power/autosuspend_delay_ms 200
 
     # Reboot in COS on shutdown request when charger is plugged
     setprop ro.rebootchargermode true
@@ -126,30 +131,13 @@ on post-fs-data
 
     mkdir /data/misc/firmware 0770 system system
 
-    # Invoke fuel gauging helper binary to restore config data
-    # chmod 0770 /dev/max170xx
-    # chown system system /dev/max170xx
-    # symlink /dev/max170xx /dev/fg
-    # chown system system /sys/class/power_supply/max17047_battery/model_name
-    # chown system system /sys/class/power_supply/max17047_battery/serial_number
-    ## marked by chih-hsuan chang
-
     mkdir /data/logs
     chown system log /data/logs
     chmod 0770 /data/logs
 
-    # create data/gps for GPS daemon
-    # mkdir /data/system/gps 771 gps system
-
-    # restore permissions for gps
-    # mkdir /data/system 0775 system system
-
     restorecon_recursive /factory
     restorecon_recursive /config
     restorecon_recursive /logs
-
-    # mkdir /data/gps 771 system system
-    # chown system system /data/gps
 
 on post-fs
     # Assume SMP uses shared cpufreq policy for all CPUs
@@ -553,12 +541,6 @@ on property:persist.asus.dclick=1
     write /sys/devices/pci0000:00/0000:00:00.3/i2c-0/0-0020/input/input1/dclick_mode 1
     write /sys/android_touch/dclick_mode 1
 
-# service fg_conf /system/bin/fg_conf -w
-#     group system
-#     oneshot
-#     disabled
-## marked by chih-hsuan chang
-
 on property:init.svc.pvrsrvctl=stopped
     # GPU freq
     chown system system /sys/class/devfreq/dfrgx/max_freq
@@ -616,13 +598,6 @@ on charger
     insmod /lib/modules/rt8515.ko
     insmod /lib/modules/atomisp-css2300.ko
 
-    # Invoke fuel gauging helper binary to restore config data
-    # symlink /dev/max170xx /dev/fg
-    # chmod 0775 /dev/fg
-    # wait /system/bin/fg_conf
-    # start fg_conf
-    ## marked by chih-hsuan chang
-
 service upi_ug31xx /system/bin/upi_ug31xx
     class core
     user system
@@ -635,11 +610,11 @@ service_redefine dpst /system/bin/dpstmgr
     group system
 
 # pclinkd is controlled via property triggers in init.<platform>.usb.rc
-service pclinkd /sbin/pclinkd --root_seclabel=u:r:su:s0
-    class core
-    socket pclinkd stream 660 system system
-    disabled
-    seclabel u:r:pclinkd:s0
+# service pclinkd /sbin/pclinkd --root_seclabel=u:r:su:s0
+#     class core
+#     socket pclinkd stream 660 system system
+#     disabled
+#     seclabel u:r:pclinkd:s0
 
 # From init.rc in stock, these redefine service definitions
 
