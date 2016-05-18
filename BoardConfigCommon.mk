@@ -110,6 +110,8 @@ USE_OPENGL_RENDERER := true
 TARGET_REQUIRES_SYNCHRONOUS_SETSURFACE := true
 
 # Init
+TARGET_INIT_VENDOR_LIB := libinit_ctp
+TARGET_LIBINIT_DEFINES_FILE := device/asus/ctp-common/init/init_ctp.cpp
 TARGET_INIT_UMOUNT_AND_FSCK_IS_UNSAFE := true
 
 # Partitions
