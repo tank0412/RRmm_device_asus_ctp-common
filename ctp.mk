@@ -133,7 +133,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.ril.status.polling.enable=0 \
 	rild.libpath=/system/lib/librapid-ril-core.so \
 	ro.ril.telephony.mqanelements=5 \
-	ro.telephony.ril.config=simactivation,sim2gsmonly \
+	ro.telephony.ril.config=simactivation \
 	ro.telephony.default_network=3,3
 
 PRODUCT_PACKAGES += \
