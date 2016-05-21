@@ -6,9 +6,9 @@
 
 import /init.environ.rc
 import /init.usb.rc
-import /init.${ro.hardware}.rc
+import /init.redhookbay.rc
 import /init.usb.configfs.rc
-import /init.${ro.zygote}.rc
+import /init.zygote32.rc
 import /init.trace.rc
 # Include CM's extra init file
 import /init.cm.rc
@@ -18,12 +18,20 @@ on early-init
     # Set init and its forked children's oom_adj.
     write /proc/1/oom_score_adj -1000
 
+    # Apply strict SELinux checking of PROT_EXEC on mmap/mprotect calls.
+    write /sys/fs/selinux/checkreqprot 0
+
+    # Set the security context for the init process.
+    # This should occur before anything else (e.g. ueventd) is started.
+    setcon u:r:init:s0
+
     # Set the security context of /adb_keys if present.
     restorecon /adb_keys
 
-    mount debugfs /sys/kernel/debug /sys/kernel/debug mode=755
-
     start ueventd
+
+    # Create mountpoints
+    mkdir /mnt 0775 root system
 
 on init
     sysclktz 0
@@ -221,6 +229,9 @@ on property:sys.boot_from_charger_mode=1
 on load_system_props_action
     load_system_props
 
+on load_all_props_action
+    load_all_props
+
 on load_persist_props_action
     load_persist_props
     start logd
@@ -240,6 +251,7 @@ on late-init
     # this in another action so that the load will be scheduled after the prior
     # issued fs triggers have completed.
     trigger load_system_props_action
+    trigger load_all_props_action
 
     # Now we can mount /data. File encryption requires keymaster to decrypt
     # /data, which in turn can only be loaded when system properties are present
@@ -292,6 +304,9 @@ on post-fs
 
     # create the lost+found directories, so as to enforce our permissions
     mkdir /cache/lost+found 0770 root root
+
+    # cpufreq interactive
+    chown system system /sys/devices/system/cpu/cpufreq/interactive/boostpulse
 
 on post-fs-data
     # We chown/chmod /data again so because mount is run as root + defaults
@@ -477,6 +492,12 @@ on boot
     chown system system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
 
+    # Tune cpusets parameters
+    write /dev/cpuset/foreground/cpus 0-3
+    write /dev/cpuset/foreground/boost/cpus 0-3
+    write /dev/cpuset/background/cpus 0
+    write /dev/cpuset/system-background/cpus 0-1
+ 
     # Assume SMP uses shared cpufreq policy for all CPUs
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
     chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
@@ -651,10 +672,9 @@ service debuggerd64 /system/bin/debuggerd64
 service ril-daemon /system/bin/rild
     class main
     socket rild stream 660 root radio
-    socket sap_uim_socket1 stream 660 bluetooth bluetooth
     socket rild-debug stream 660 radio system
     user root
-    group radio cache inet misc audio log qcom_diag
+    group radio cache inet misc audio log
 
 service surfaceflinger /system/bin/surfaceflinger
     class core
@@ -670,7 +690,7 @@ service drm /system/bin/drmserver
 service media /system/bin/mediaserver
     class main
     user media
-    group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm qcom_diag
+    group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm radio system
     ioprio rt 4
 
 # One shot invocation to deal with encrypted volume.
