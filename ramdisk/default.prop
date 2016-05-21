@@ -15,9 +15,12 @@ dalvik.vm.dex2oat-Xms=64m
 dalvik.vm.dex2oat-Xmx=512m
 ro.build.selinux=0
 gsm.net.interface=rmnet0
+ro.sys.powerctl.no.shutdown=1
+init.shutdown_to_charging=1
 #
 # BOOTIMAGE_BUILD_PROPERTIES
 #
+ro.bootimage.build.version=20160504
 ro.bootimage.build.date=Ter Abr 19 03:48:33 BRT 2016
 ro.bootimage.build.date.utc=1461048513
 ro.bootimage.build.fingerprint=ASUS/cm_T00F/T00F:6.0.1/MHC19Q/0eae9d452f:user/test-keys
