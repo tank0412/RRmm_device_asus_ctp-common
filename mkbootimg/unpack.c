@@ -57,27 +57,46 @@ int main(int argc, char *argv[])
 	char *origin;
 	char *bzImage;
 	char *ramdisk;
+	char *cmdline;
 	FILE *forigin;
 	FILE *fbzImage;
 	FILE *framdisk;
+	FILE *fcmdline;
 	uint32_t bzImageLen;
 	uint32_t ramdiskLen;
+	uint32_t cmdlineLen = CMDLINE_SIZE;
 	uint32_t missing;
 	char buf[BUFSIZ];
 	size_t size;
 
-	if (argc != 4)
-		ERROR("Usage: %s <image to unpack> <bzImage out> <ramdisk out>\n", argv[0]);
+	if (argc != 5)
+		ERROR("Usage: %s <image to unpack> <bzImage out> <ramdisk out> <cmdline out>\n", argv[0]);
 
 	origin = argv[1];
 	bzImage = argv[2];
 	ramdisk = argv[3];
+	cmdline = argv[4];
 
 	forigin = fopen(origin, "r");
 	fbzImage = fopen(bzImage, "w");
 	framdisk = fopen(ramdisk, "w");
-	if (!forigin || !bzImage || !framdisk)
+	fcmdline = fopen(cmdline, "w");
+
+	if (!forigin || !bzImage || !framdisk || !fcmdline)
 		ERROR("ERROR: failed to open origin or output images\n");
+
+	/* Read cmdline from the image to unpack */
+	if (fseek(forigin, CMDLINE_START, SEEK_SET) == -1)
+		ERROR("ERROR: failed to seek on image\n");
+
+	missing = cmdlineLen;
+	while (missing > 0) {
+		size = fread(buf, 1, ((missing > BUFSIZ) ? BUFSIZ : missing), forigin);
+		if (size != 0) {
+			fwrite(buf, 1, size, fcmdline);
+			missing -= size;
+		}
+	}
 
 	/* Read bzImage length from the image to unpack */
 	if (fseek(forigin, CMDLINE_END, SEEK_SET) == -1)

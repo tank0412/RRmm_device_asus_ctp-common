@@ -70,28 +70,33 @@ int main(int argc, char *argv[])
 	char *origin;
 	char *bzImage;
 	char *ramdisk;
+	char *cmdline;
 	char *output;
 	FILE *forigin;
 	FILE *foutput;
 	FILE *fbzImage;
 	FILE *framdisk;
+	FILE *fcmdline;
 	struct stat st;
 	uint32_t tmp, paddings, totalImageSize;
 	char buf[BUFSIZ];
 	size_t size;
+	int i;
 	struct bootheader *file;
 
-	if (argc != 5)
-		ERROR("Usage: %s <valid image> <bzImage> <ramdisk> <output>\n", argv[0]);
+	if (argc != 6)
+		ERROR("Usage: %s <valid image> <bzImage> <ramdisk> <cmdline> <output>\n", argv[0]);
 
 	origin = argv[1];
 	bzImage = argv[2];
 	ramdisk = argv[3];
-	output = argv[4];
+	cmdline = argv[4];
+	output = argv[5];
 
 	forigin = fopen(origin, "r");
 	fbzImage = fopen(bzImage, "r");
 	framdisk = fopen(ramdisk, "r");
+	fcmdline = fopen(cmdline, "r");
 	foutput = fopen(output, "w");
 	if (!forigin || !foutput)
 		ERROR("ERROR: failed to open origin or output image\n");
@@ -103,6 +108,12 @@ int main(int argc, char *argv[])
 
 	if (fread(file, sizeof(struct bootheader), 1, forigin) != 1)
 		ERROR("ERROR reading bootstub\n");
+
+	/* copy cmdline to header */
+	for(i = 0; i < CMDLINE_SIZE; i++)
+	{
+		fscanf(fcmdline, "%c", &file->cmdline[i]);
+	}
 
 	/* Figure out the bzImage size and set it */
 	if (stat(bzImage, &st) == 0) {

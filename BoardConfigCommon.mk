@@ -217,16 +217,22 @@ TW_EXCLUDE_SUPERSU := false
 BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 BOARD_SUPPRESS_EMMC_WIPE := true
 
-
 # OTA Packaging / Bootimg creation
 BOARD_CUSTOM_BOOTIMG := true
+BOARD_CUSTOM_MKBOOTIMG := pack_intel
 BOARD_CUSTOM_BOOTIMG_MK := device/asus/ctp-common/mkbootimg.mk
+NEED_KERNEL_MODULE_ROOT := true
 DEVICE_BASE_BOOT_IMAGE := device/asus/ctp-common/blobs/boot.img
 DEVICE_BASE_RECOVERY_IMAGE := device/asus/ctp-common/blobs/recovery.img
-NEED_KERNEL_MODULE_ROOT := true
-BOARD_KERNEL_CMDLINE := init=/init pci=noearly earlyprintk=nologger loglevel=0 kmemleak=off androidboot.bootmedia=sdcard androidboot.hardware=redhookbay
-BOARD_KERNEL_CMDLINE += watchdog.watchdog_thresh=60 androidboot.spid=xxxx:xxxx:xxxx:xxxx:xxxx:xxxx androidboot.serialno=01234567890123456789
-BOARD_KERNEL_CMDLINE += ip=50.0.0.2:50.0.0.1::255.255.255.0::usb0:on vmalloc=172M slub_max_order=2
+BOARD_KERNEL_CMDLINE := init=/init pci=noearly loglevel=0 vmalloc=256M androidboot.hardware=redhookbay
+BOARD_KERNEL_CMDLINE += watchdog.watchdog_thresh=60 androidboot.spid=xxxx:xxxx:xxxx:xxxx:xxxx:xxxx
+BOARD_KERNEL_CMDLINE += androidboot.serialno=012345678901234567890123456789
+BOARD_KERNEL_CMDLINE += snd_pcm.maximum_substreams=8 ip=50.0.0.2:50.0.0.1::255.255.255.0::usb0:on
+BOARD_KERNEL_CMDLINE += debug_locks=0
+
+TARGET_RECOVERY_UPDATER_LIBS += libintel_updater
+TARGET_RECOVERY_UPDATER_EXTRA_LIBS += liboempartitioning_static
+
 #ALAC CODEC
 USE_FEATURE_ALAC := true
 

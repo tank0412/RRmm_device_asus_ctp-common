@@ -33,6 +33,7 @@
 #define HEAD_PADDING                                            (0x1c8)
 #define UNKNOWN_SIZE                                            (0x1e0)
 
+#define CMDLINE_START						(0x3E0)
 #define CMDLINE_SIZE   						(0x400)
 #define CMDLINE_END						(HEADER_SIZE + HEAD_PADDING + UNKNOWN_SIZE + CMDLINE_SIZE)
 // uint32_t * 4 = 0x10, total: 0x410

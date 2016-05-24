@@ -320,7 +320,7 @@ PRODUCT_PACKAGES += \
 #Custom RR OTA app
 PRODUCT_PACKAGES += \
   OTA_Downloader \
-  RR_OTA
+  RR_OTA \
 
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4339/device-bcm.mk)
 $(call inherit-product-if-exists, vendor/asus/ctp-common/ctp-common-vendor.mk)
