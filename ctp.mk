@@ -17,17 +17,6 @@
 $(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
 $(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
 
-ifeq ($(TARGET_PREBUILT_KERNEL),)
-	LOCAL_KERNEL := device/asus/ctp-common/BZIMAGE
-else
-	LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
-endif
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_KERNEL):kernel
-
-TARGET_RECOVERY_PREBUILT_KERNEL := $(LOCAL_KERNEL)
-
 
 DEVICE_PACKAGE_OVERLAYS := \
 	device/asus/ctp-common/overlay

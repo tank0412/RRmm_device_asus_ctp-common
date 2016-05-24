@@ -31,7 +31,6 @@ TARGET_BOOTLOADER_BOARD_NAME := clovertrail
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
-TARGET_PREBUILT_KERNEL := device/asus/ctp-common/BZIMAGE
 
 # ADB
 BOARD_FUNCTIONFS_HAS_SS_COUNT := true
@@ -217,6 +216,11 @@ TW_EXCLUDE_SUPERSU := false
 BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file"
 BOARD_SUPPRESS_EMMC_WIPE := true
 
+# Inline kernel building
+TARGET_KERNEL_SOURCE := kernel/asus/$(TARGET_DEVICE)
+TARGET_KERNEL_ARCH := x86
+BOARD_KERNEL_IMAGE_NAME := bzImage
+TARGET_KERNEL_CONFIG := cyanogenmod_$(TARGET_DEVICE)_defconfig
 # OTA Packaging / Bootimg creation
 BOARD_CUSTOM_BOOTIMG := true
 BOARD_CUSTOM_MKBOOTIMG := pack_intel
