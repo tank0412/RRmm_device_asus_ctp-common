@@ -1,0 +1,16 @@
+on post-fs-data
+
+    mkdir /data/gps 771 system system
+    chown system system /data/gps
+
+service gpsd /system/bin/gps_daemon.sh
+    class main
+    user gps
+    group system inet radio sdcard_rw net_admin
+    seclabel u:r:gpsd:s0
+
+# Start GPS daemon
+service gps-daemon /system/bin/gps_lto.sh
+    class late_start
+    oneshot
+    seclabel u:r:gpsd:s0

@@ -1,0 +1,5 @@
+on boot
+    start intel_prop
+
+service intel_prop /system/bin/intel_prop
+    oneshot

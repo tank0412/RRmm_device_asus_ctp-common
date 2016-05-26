@@ -1,0 +1,427 @@
+import init.common.rc
+import init.debug.rc
+import init.diag.rc
+import init.avc.rc
+import init.wireless.rc
+import init.wifi.rc
+import init.platform.usb.rc
+import init.gps.rc
+import init.compass.rc
+import init.bt.rc
+import init.modem.rc
+import init.config_init.rc
+import init.logtool.rc
+
+on early-init
+# Set boot_min_cap for boot to Android.
+    setprop ro.boot.min.cap 0
+
+on init
+
+    chmod 0770 /system/bin/upi_ug31xx
+    chown system system /system/bin/upi_ug31xx
+    chmod 0770 /dev/ug31xx
+    chown system system /dev/ug31xx
+
+    export LD_SHIM_LIBS /system/bin/mmgr|libshim_mmgr.so:/system/bin/gpsd|libshim_gps.so:/system/lib/hw/gps.redhookbay.so|libshim_gps.so:/system/lib/hw/sensors.redhookbay.so|libshim_sensors.so:/system/lib/libtcs.so|libshim_tcs.so:/system/lib/libparameter.so|libshim_audio.so:/system/lib/parameter-framework-plugins/Audio/libroute-subsystem.so|libshim_audio.so:/system/lib/parameter-framework-plugins/Audio/libtinyalsa-subsystem.so|libshim_audio.so:/system/lib/libaudience-manager.so|libshim_audio.so:/system/lib/hw/camera.vendor.redhookbay.so|libshim_camera.so
+
+    write /sys/class/graphics/fbcon/cursor_blink 0
+    mkdir /data/system/ 0770 system system
+    mkdir /data/misc 01771 system misc
+    mkdir /data/misc/audio 0770 audio audio
+
+    chmod 0600 /dev/dri/controlD64
+    chmod 0640 /dev/matrix
+
+    # Android creates by-name disk links with the disk controller
+    # in the generated path, so that the names pulled out of the GPT
+    # can be associated with the correct disk. Create a shortcut to
+    # /dev/block/by-name so that we can use the same fstabs everywhere.
+    symlink /dev/block/pci/pci0000:00/0000:00:01.0/by-name /dev/block/by-name
+
+    write /proc/sys/kernel/hung_task_timeout_secs 0
+
+    chmod 0644 /system/framework/core.jar
+    chmod 0644 /system/framework/framework.jar
+    chmod 0644 /system/framework/apache-xml.jar
+    chmod 0644 /system/framework/ext.jar
+
+    mkdir /factory
+    mkdir /config
+    #mkdir /logs
+
+    #  Mount the sep filesystem
+    mount sepfs sepfs /sys/fs/sepfs
+
+    # Configure the proper cpusets
+    write /dev/cpuset/system-background/cpus 0-3
+    write /dev/cpuset/background/cpus 0-3
+    write /dev/cpuset/foreground/boost/cpus 0-3
+    write /dev/cpuset/foreground/cpus 0-3
+    write /dev/cpuset/cpus 0-3
+
+on boot
+
+#  Permissions for Thermal Management
+    chown system system /sys/class/power_supply/bq24192_charger/device/charge_current_limit
+    chown system system /sys/module/intel_mid_osip/parameters/force_shutdown_occured
+    chown system system /sys/module/intel_mid_osip/parameters/thermal_shutdown_occured
+    chown system system /sys/class/thermal/cooling_device0/cur_state
+    chown system system /sys/class/thermal/cooling_device1/cur_state
+    chown system system /sys/devices/platform/coretemp.0/temp2_threshold1
+    chown system system /sys/devices/platform/coretemp.0/temp2_threshold2
+    chown system system /sys/class/thermal/deferrable_timer/enable
+    chown system system /sys/class/thermal/deferrable_timer/timeout
+    chown system system /sys/fps_throttle/notify
+    chown system system /sys/fps_throttle/handshake
+
+#   Disable audio offloading
+    setprop audio.offload.disable 1
+
+ #   chown system system /sys/class/pci_bus/0000:00/device/0000:00:16.1/control
+ #   chown system system /sys/class/pci_bus/0000:00/device/0000:00:16.1/data
+ #   chown system system /sys/class/pci_bus/0000:00/device/0000:00:16.1/data_size
+ #   chown system system /sys/class/pci_bus/0000:00/device/0000:00:16.1/fw_version
+
+# Lte coexistence ( can be enabled the following: NRT / NRT+RT )
+# Enable LTE Coexistence NRT (Non Real Time)
+    setprop persist.service.cwsmgr.coex 1
+
+# Disable LTE coexistence RT (Real Time). Should be set to 0 to enable.
+    setprop persist.service.cwsmgr.nortcoex 0
+
+# Set this property so surfaceflinger is not started by system_init
+    setprop system_init.startsurfaceflinger 0
+
+# Reboot in COS on shutdown request when charger is plugged
+    setprop ro.rebootchargermode true
+
+#  Enable submix audio path for widi
+    setprop widi.audio.module submix
+
+#  Enable HDCP by default for widi
+    setprop widi.hdcp.enable auto
+
+#  Enable frc stting for merr
+    setprop vppsettings.frc 1
+
+#  Enable slow-motion playback
+    setprop video.playback.slow-motion 1
+
+    #set dirty background bytes to 24MB to reduce USB MTP write latencies
+    write /proc/sys/vm/dirty_background_bytes 25165824
+
+# Set debugfs ownership to media
+   chown media media /sys/kernel/debug/sst/fw_ssp_reg
+   chown media media /sys/kernel/debug/sst/shim_dump
+   chown media media /sys/kernel/debug/sst/sram_ia_lpe_mailbox
+   chown media media /sys/kernel/debug/sst/sram_lpe_checkpoint
+   chown media media /sys/kernel/debug/sst/sram_lpe_ia_mailbox
+   chown media media /sys/kernel/debug/sst/lpe_stack
+
+on post-fs-data
+    chown media_rw media_rw /data/media
+
+    mkdir /data/misc/firmware 0770 system system
+
+    #Invoke fuel gauging helper binary to restore config data
+    #chmod 0770 /dev/max170xx
+    #chown system system /dev/max170xx
+    #symlink /dev/max170xx /dev/fg
+    #chown system system /sys/class/power_supply/max17047_battery/model_name
+    #chown system system /sys/class/power_supply/max17047_battery/serial_number
+    #start fg_conf
+
+    mkdir /data/logs
+    chown system log /data/logs
+    chmod 0770 /data/logs
+    # symlink /data/logs /logs
+    # Enable Dynamic Turbo feature
+    setprop persist.thermal.turbo.dynamic 1
+
+    #setup silentlake vidt and start service
+    chown system system /dev/vidt
+    chmod 0660 /dev/vidt
+    start sl_si_service
+
+on post-fs
+    # Assume SMP uses shared cpufreq policy for all CPUs
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chown system system /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
+    chmod 0660 /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
+    chown system system /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
+    chmod 0660 /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
+    chown system system /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq
+    chmod 0660 /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq
+
+
+# hall sensor
+    chown system system /sys/kernel/hall_sensor_kobject/hall_sensor/activity
+
+    # Volume keys wakeup capability
+    chmod 0664 /sys/devices/platform/gpio-keys/enabled_wakeup
+    chmod 0664 /sys/devices/platform/gpio-keys/disabled_wakeup
+    chown media system /sys/devices/platform/gpio-keys/enabled_wakeup
+    chown media system /sys/devices/platform/gpio-keys/disabled_wakeup
+
+#  Permissions for Sensors
+
+    # accelerometer kxtj9
+    chown system system /sys/bus/i2c/devices/5-000f/enable
+    chown system system /sys/bus/i2c/devices/5-000f/delay
+    chown system system /sys/bus/i2c/devices/5-000f/rawdata
+
+    chown system system /dev/asus_gsensor
+    chmod 0660 /dev/asus_gsensor
+
+    # AKM E-compass added by cheng_kao
+    chown system system /sys/class/compass/akm09911/enable_acc
+    chown system system /sys/class/compass/akm09911/enable_mag
+    chown system system /sys/class/compass/akm09911/enable_fusion
+    chown system system /sys/class/compass/akm09911/delay_acc
+    chown system system /sys/class/compass/akm09911/delay_mag
+    chown system system /sys/class/compass/akm09911/delay_fusion
+    chown system system /sys/class/compass/akm09911/accel
+
+    chown system system /dev/akm09911_dev
+    chmod 0660 /dev/akm09911_dev
+
+# Permissions for proximity driver 
+    chown system system /sys/class/optical_sensors/proximity/ps_calling
+
+    # accelerometer lsm303dlhc
+    chown system system /sys/bus/i2c/devices/5-0019/enable
+    chown system system /sys/bus/i2c/devices/5-0019/poll
+    chown system system /sys/bus/i2c/devices/5-0019/lis3dh/enable
+    chown system system /sys/bus/i2c/devices/5-0019/lis3dh/poll
+
+    #barometer lps331ap
+    chown system system /sys/bus/i2c/devices/5-005c/enable
+    chown system system /sys/bus/i2c/devices/5-005c/poll
+
+    #compass lsm303dlhc
+    chown system system /sys/bus/i2c/devices/5-001e/lsm303cmp/enable
+    chown system system /sys/bus/i2c/devices/5-001e/lsm303cmp/poll
+    chown system system /sys/bus/i2c/devices/5-001e/enable
+    chown system system /sys/bus/i2c/devices/5-001e/poll
+
+    #als/ps apds990x
+    chmod 0755 /dev/apds990x_lsensor
+    chmod 0755 /dev/apds990x_psensor
+    chown system system /sys/bus/i2c/devices/5-0039/prox0_raw
+    chown system system /sys/bus/i2c/devices/5-0039/prox0_thresh_above_value
+
+    chown system system /sys/bus/i2c/devices/5-0039/apds990x_als/enable
+    chown system system /sys/bus/i2c/devices/5-0039/apds990x_als/poll
+    chown system system /sys/bus/i2c/devices/5-0039/apds990x_ps/enable
+    chown system system /sys/bus/i2c/devices/5-0039/apds990x_ps/poll
+    chown system system /sys/bus/i2c/devices/5-0039/apds990x_ps/rawdata
+    chown system system /sys/bus/i2c/devices/5-0039/apds990x_ps/thresh
+
+
+    # SEP (Chaabi)
+    copy /system/etc/security/sep_policy.conf /sys/fs/sepfs/load
+    chown system system /dev/dx_sep_q0
+    chmod 0666 /dev/dx_sep_q0
+    chown system system /dev/dx_sep_q1
+    chmod 0666 /dev/dx_sep_q1
+
+    chown system system /dev/sep_sec_driver
+    chmod 0666 /dev/sep_sec_driver
+
+    #Gyroscope l3g4200d
+    chown system system /sys/bus/i2c/devices/5-0068/poll
+    chown system system /sys/bus/i2c/devices/5-0068/enable
+    chown system system /sys/bus/i2c/devices/5-006a/poll
+    chown system system /sys/bus/i2c/devices/5-006a/enable
+
+# Permissions for monzax
+    chown system system /dev/monzax
+    chmod 0660 /dev/monzax
+
+# Permissions for LED
+    chown system system /sys/class/leds/intel_keypad_led/brightness
+
+# For Indicator LED
+    chown system system /sys/class/leds/red/brightness
+    chown system system /sys/class/leds/green/brightness
+    chown system system /sys/class/leds/red/blink
+    chown system system /sys/class/leds/green/blink
+    chmod 0644 /sys/class/leds/red/brightness
+    chmod 0644 /sys/class/leds/green/brightness
+    chmod 0644 /sys/class/leds/red/blink
+    chmod 0644 /sys/class/leds/green/blink
+
+#For Quick Charge control
+#    chown system system /proc/smb1357_qc_disable
+
+# Permissions for BCU sysfs interface and make generic path to access by apps
+#    chown system system /sys/devices/platform/bcove_bcu/camflash_ctrl
+#    symlink /sys/devices/platform/bcove_bcu /dev/bcu
+    restorecon_recursive /factory
+    restorecon_recursive /config
+    restorecon_recursive /logs
+
+# Permissions for BCU Driver
+    chown system system /sys/devices/platform/msic_ocd/msic_current/batt_level
+# For audio headset ringtone volume index when ringer mode is vibrate
+    setprop ro.audio.vibra.ring.vol.idx 5
+
+# Permissions for Touch Palm node
+    chown system system /proc/asus_touch_palm_status
+
+# Permissions for Touch Proximity node
+    chown system system /proc/asus_touch_proximity_status
+
+# Permissions for Touch Glove Mode
+    chown system system /sys/bus/i2c/devices/i2c-0/0-0020/input/input1/glove_mode
+
+# Permissions for Touch dclick Mode
+    chown system radio /sys/bus/i2c/devices/i2c-0/0-0020/input/input1/dclick_mode
+    chmod 0664 /sys/bus/i2c/devices/i2c-0/0-0020/input/input1/dclick_mode
+# Permissions for Touch Gesture Mode
+    chown system system /sys/bus/i2c/devices/i2c-0/0-0020/input/input1/glove_mode
+
+     # Key disabler
+    chown root system /proc/synaptics_dsx/0dbutton
+    chmod 0660 /proc/synaptics_dsx/0dbutton
+
+# Permissions for Sdcard Power Node
+	chown system system /proc/asus_sd_power
+
+
+service sl_si_service /system/bin/sl_si_service d=1
+    user system
+    group system
+    socket silentlake stream 666 system system
+    disabled
+    oneshot
+
+#service fg_conf /system/bin/fg_conf -w
+#    group system
+#    oneshot
+#    disabled
+
+#+++++++++++++++++++++lynn 2014/10/27 FAC++++++++++++++++++++++
+# import ASUS factory tools script
+# note:Shipping IMG no this service,because no "AsusFactory" floder where asusft.sh exist.
+service asusft /system/bin/sh /system/etc/asus/asusft.sh
+    class eng
+    oneshot
+    on property:ro.secure=0
+    class_start eng
+#---------------------lynn 2014/10/27 FAC----------------------
+
+#+++++++++++++++++++++ward_du  2014/11/07 For BT,Wifi MAC and ISN,SSN ++++++++++++++++++++++
+service customize /system/bin/customize_service
+	class core
+	user root
+	oneshot
+#---------------------ward_du 2014/11/07 FAC----------------------
+
+# Root command service
+service app_runcmd /system/bin/app_runcmd.sh
+     disabled
+     oneshot
+
+service wifitest_runcmd /system/bin/wifitest_runcmd.sh
+     disabled
+     oneshot
+
+#on property:init.svc.pvrsrvctl=stopped
+#    # GPU freq
+#    chown system system /sys/class/devfreq/dfrgx/max_freq
+#    chmod 0660 /sys/class/devfreq/dfrgx/max_freq
+#    chown system system /sys/class/devfreq/dfrgx/min_freq
+#    chmod 0660 /sys/class/devfreq/dfrgx/min_freq
+
+on property:service.mmgr.smp=1
+   write /proc/irq/36/smp_affinity f
+
+on property:service.mmgr.smp=0
+    write /proc/irq/36/smp_affinity 1
+
+service_redefine drm /system/bin/drmserver
+    class main
+    user drm
+    group drm system inet drmrpc sdcard_r
+
+service sensorhubd /system/bin/sensorhubd
+    class main
+    user system
+    group system
+    socket sensorhubd stream 660 system system
+
+on charger
+    start upi_ug31xx
+    mount ext4 /dev/block/by-name/system /system ro noatime barrier=1,data=ordered
+    mount ext4 /dev/block/by-name/logs /logs nosuid nodev barrier=1,data=ordered
+
+    start watchdogd
+    insmod /lib/modules/imx111.ko
+    insmod /lib/modules/t4k35.ko
+    insmod /lib/modules/t4k35_180.ko
+    
+    insmod /lib/modules/t4k37.ko
+    insmod /lib/modules/mn34130.ko  
+    
+    
+    insmod /lib/modules/atomisp-css2300.ko
+
+    # Invoke fuel gauging helper binary to restore config data
+    #symlink /dev/max170xx /dev/fg
+    #chmod 0775 /dev/fg
+    #wait /system/bin/fg_conf
+    #start fg_conf
+
+service upi_ug31xx /system/bin/upi_ug31xx
+    class core
+    user system
+    group system
+    seclabel u:r:asus_config:s0
+
+#Turn on VPROG2 Power rail to avoid power leakage in Sensor
+
+#    chmod 0664 /sys/bus/pci/devices/0000:00:16.1/control
+#    write /sys/bus/pci/devices/0000:00:16.1/control "0 1 0"
+
+on property:persist.asus.instant_camera=1
+    write sys/devices/platform/gpio-keys/enabled_wakeup 115
+    write sys/devices/platform/gpio-keys/enabled_wakeup 114
+
+on property:persist.asus.instant_camera=0
+    write sys/devices/platform/gpio-keys/disabled_wakeup 115
+    write sys/devices/platform/gpio-keys/disabled_wakeup 114
+
+# Add for USB ethernet dongle
+service dhcpcd_eth0 /system/bin/dhcpcd -ABDKL -f/system/etc/dhcpcd/dhcpcd.conf
+    class main
+    disabled
+    oneshot
+
+service iprenew_eth0 /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
+# From init.rc in stock, these redefine service definitions
+
+service_redefine media /system/bin/mediaserver
+    class main
+    user media
+    group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm radio system
+    ioprio rt 4
+
+service_redefine keystore /system/bin/keystore /data/misc/keystore
+    class main
+    user keystore
+    group keystore drmrpc system
+    setenv LD_SHIM_LIBS /system/libbinder.so|libstock_crypto.so:/system/lib/hw/keystore.vendor.clovertrail.so|libstock_crypto.so
+
+# Workaround for broken incall audio
+service bootsnd /system/bin/tinyplay /system/etc/silence.wav -D 0 -d 0 -p 880
+    class late_start
+    user root
+    group audio
+    oneshot
