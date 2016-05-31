@@ -1,9 +1,15 @@
-# MOFD_V0 specific rules for recovery OS
+# CLOVERTRAIL specific rules for recovery os
 on early-init
+    insmod /lib/modules/pnwdisp.ko
+    insmod /lib/modules/pvrsgx.ko
+    insmod /lib/modules/texfat.ko
+    insmod /lib/modules/tntfs.ko
     chmod 0600 /dev/dri/controlD64
-    start thermald
+
+    chmod 0770 /upi_ug31xx
 
 on init
+    insmod /lib/modules/rmi4.ko boot_mode=1
     # Android creates by-name disk links with the disk controller
     # in the generated path, so that the names pulled out of the GPT
     # can be associated with the correct disk. Create a shortcut to
@@ -26,29 +32,23 @@ on property:sys.usb.config=adb
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 8087
     write /sys/class/android_usb/android0/idProduct 0a5d
-    write /sys/class/android_usb/android0/iSerial ${ro.serialno}
     write /sys/class/android_usb/android0/iProduct "Android-Phone"
     write /sys/class/android_usb/android0/functions $sys.usb.config
     write /sys/class/android_usb/android0/enable 1
 
 service intel_prop /sbin/intel_prop
     oneshot
-    seclabel u:r:asus_config:s0
 
-# copied from common/init.watchdogd.rc
+# Copied from common/init.watchdogd.rc
 service watchdogd /sbin/watchdogd 60 20
     oneshot
-    seclabel u:r:watchdogd:s0
 
 service thermald /sbin/thermald ROS
     class core
     user root
-    seclabel u:r:healthd:s0
 
-service upi_ug31xx /sbin/upi_ug31xx
+service upi_ug31xx /upi_ug31xx
     class core
-    user root
-    seclabel u:r:asus_config:s0
 
 # Reset the watchdog counter once boot is completed
 on property:init.svc.recovery=running

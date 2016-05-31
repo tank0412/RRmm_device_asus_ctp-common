@@ -20,7 +20,6 @@ on post-fs-data
 on property:init.svc.wpa_supplicant=stopped
     stop dhcpcd
 
-
 service ifcfg_mac80211 /system/bin/ifconfig wlan0 up
     class main
     disabled
@@ -36,14 +35,3 @@ service iprenew_wlan0 /system/bin/dhcpcd -n
     group system dhcp
     disabled
     oneshot
-
-service sta_connected /system/bin/am broadcast -a com.asus.softap.action.STA_CONNECTED
-    class main
-    disabled
-    oneshot
-
-service sta_disconnected /system/bin/am broadcast -a com.asus.softap.action.STA_DISCONNECTED
-    class main
-    disabled
-    oneshot
-

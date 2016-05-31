@@ -1,3 +1,5 @@
+
+
 # init.modem.rc for telephony services
 on init
     chown root radio /dev/ttyGTM*

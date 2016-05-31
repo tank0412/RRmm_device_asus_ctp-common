@@ -1,6 +1,6 @@
 # Enable by default android java wakelock logging
 on init
-#    mkdir /logs
+    # mkdir /logs
     symlink /data/logs /logs
     write /proc/sys/kernel/kptr_restrict 2
 
@@ -16,7 +16,7 @@ on post-fs-data
     mkdir /logs/aplogs 0775 system log
 
 on charger
-    # basic networking for "adb root"
+    # Basic networking for "adb root"
     ifup lo
     hostname localhost
     domainname localdomain
@@ -26,16 +26,3 @@ on charger
 
 on ramconsole
     powerctl reboot
-
-# crash and log services
-#service crashlogd /system/bin/crashmonitor
-#    class late_start
-#    user system
-#    group system log radio
-
-# LogConfig service
-service logconfig /system/bin/logconfig
-    class main
-    socket logconfig stream 0660 root system
-    disabled
-    oneshot
