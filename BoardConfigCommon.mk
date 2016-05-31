@@ -16,7 +16,6 @@
 
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RECOVERY := false
-HAS_PREBUILT_KERNEL  := true
 TARGET_PROVIDES_INIT_RC := false
 
 TARGET_ARCH := x86
@@ -218,12 +217,14 @@ BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/l
 BOARD_SUPPRESS_EMMC_WIPE := true
 
 # Inline kernel building
+TARGET_KERNEL_BUILT_FROM_SOURCE := true
 TARGET_KERNEL_SOURCE := kernel/asus/$(TARGET_DEVICE)
 TARGET_KERNEL_ARCH := x86
 BOARD_KERNEL_IMAGE_NAME := bzImage
 TARGET_KERNEL_CONFIG := cyanogenmod_$(TARGET_DEVICE)_defconfig
 KERNEL_EXTRA_FLAGS := ANDROID_TOOLCHAIN_FLAGS=-mno-android
 KERNEL_SOC := ctp
+
 # OTA Packaging / Bootimg creation
 BOARD_CUSTOM_BOOTIMG := true
 BOARD_CUSTOM_MKBOOTIMG := pack_intel
@@ -236,6 +237,9 @@ BOARD_KERNEL_CMDLINE += watchdog.watchdog_thresh=60 androidboot.spid=xxxx:xxxx:x
 BOARD_KERNEL_CMDLINE += androidboot.serialno=012345678901234567890123456789
 BOARD_KERNEL_CMDLINE += snd_pcm.maximum_substreams=8 ip=50.0.0.2:50.0.0.1::255.255.255.0::usb0:on
 BOARD_KERNEL_CMDLINE += debug_locks=0
+
+BOARD_KERNEL_BASE := 0x10000000
+BOARD_KERNEL_PAGESIZE := 2048
 
 TARGET_RECOVERY_UPDATER_LIBS += libintel_updater
 TARGET_RECOVERY_UPDATER_EXTRA_LIBS += liboempartitioning_static
