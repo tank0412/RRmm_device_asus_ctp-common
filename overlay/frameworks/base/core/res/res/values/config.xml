@@ -416,8 +416,4 @@
         <item>com.google.android.gms</item>
         <item>com.android.location.fused</item>
     </string-array>
-   
- 
-     <!-- Show battery fully charged notification -->
-     <bool name="config_showBatteryFullyChargedNotification">true</bool>
 </resources>
