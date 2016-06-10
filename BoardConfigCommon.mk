@@ -57,9 +57,6 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/asus/ctp-common/bluetooth
 BOARD_SKIP_ANDROID_DOC_BUILD := true
 BUILD_EMULATOR := false
 
-# SELinux
-BOARD_SEPOLICY_DIRS += device/asus/ctp-common/sepolicy
-
 #Touchcreen
 BOARD_TOUCHSCREEN_DRIVER := synaptics_dsx
 

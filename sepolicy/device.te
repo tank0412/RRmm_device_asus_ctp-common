@@ -1,4 +1,0 @@
-type config_block_device, dev_type;
-
-# Bat gauge
-type asus_config_device, dev_type;

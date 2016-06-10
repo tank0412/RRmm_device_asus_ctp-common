@@ -1,3 +1,0 @@
-# watchdog needs this
-allow kernel self:capability sys_admin;
-
