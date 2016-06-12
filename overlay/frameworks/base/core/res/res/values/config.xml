@@ -341,8 +341,6 @@
 
 	<bool name="config_batterySdCardAccessibility">true</bool>
     
-        <!-- Configure Group Owner Intent used to perform WiFi Display P2P connection. -->
-    <integer name="config_groupOwnerIntentWifiDisplay">14</integer>
     <!-- Boolean indicating whether the wifi chipset supports multi-role multi-channel -->
     <add-resource type="bool" name="config_wifi_multirole_multichannel_support"></add-resource>
     <bool translatable="false" name="config_wifi_multirole_multichannel_support">true</bool>
