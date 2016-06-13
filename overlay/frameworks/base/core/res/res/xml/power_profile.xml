@@ -1,6 +1,6 @@
-
 <?xml version="1.0" encoding="utf-8"?>
 <device name="Android">
+<project name="T00F">
         <item name="none">0</item>
         <item name="screen.on">161.8</item>
         <item name="bluetooth.active">100</item>
@@ -38,7 +38,7 @@
         </array>
         <item name="battery.capacity">2050</item>
     </project>
-    <project name="a600cg">
+    <project name="T00G">
         <item name="none">0</item>
         <item name="screen.on">167.5</item>
         <item name="bluetooth.active">85</item>
