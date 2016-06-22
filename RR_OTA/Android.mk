@@ -1,5 +1,7 @@
+
 include $(CLEAR_VARS)
 
+LOCAL_PATH:= device/asus/ctp-common/RR_OTA
 LOCAL_MODULE := OTA_Downloader
 LOCAL_MODULE_TAGS := optional
 LOCAL_SRC_FILES := OTA_Downloader/OTA_Downloader.apk
@@ -13,6 +15,7 @@ include $(BUILD_PREBUILT)
 ###############################################################################
 include $(CLEAR_VARS)
 
+LOCAL_PATH:= device/asus/ctp-common/RR_OTA
 LOCAL_MODULE := RR_OTA
 LOCAL_MODULE_TAGS := optional
 LOCAL_SRC_FILES := RR_OTA/RR_OTA.apk
